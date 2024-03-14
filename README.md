@@ -17,4 +17,4 @@ This is a software security course project about a desktop app mainly about note
 
 
 ![Screenshot of a comment on a GitHub issue showing an image, added in the Markdown, of an Octocat smiling and raising a tentacle.]
-(https://ibb.co/djRQt6c)
+(https://i.ibb.co/9c7qh2v/ezgif-4-72adb0ccd9.gif)
