@@ -44,7 +44,7 @@ class Login(ct.CTk):
             messagebox.showerror("Error", "Type Username and Password")
         else:
             try:
-                #database credentials and information
+                #database credentials and information ... i named it registration .. you can name it whatever you want
                 mydb=msql.connect(host="localhost", user='root',
                                 password='QueueThatW@69',
                                 database='registration')
@@ -52,7 +52,7 @@ class Login(ct.CTk):
                 #messagebox.showerror("","Connected to database")
                 command = "use registration"
                 mycursor.execute(command)
-                # we will execute a command to get username and password from table (login)
+                # we will execute a command to get username and password from table (login) ... you can call the table whatever you want too
                 command="select * from login where username=%s and password=%s"
                 mycursor.execute(command,(username,password))
                 
