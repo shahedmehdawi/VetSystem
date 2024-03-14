@@ -46,8 +46,8 @@ class Login(ct.CTk):
             try:
                 #database credentials and information ... i named it registration .. you can name it whatever you want
                 mydb=msql.connect(host="localhost", 
-                                user='blabla',# change username to match your database user
-                                password='blablapass', # change pass
+                                user='database_username',# change username to match your database user
+                                password='database_password', # change pass
                                 database='registration')# change database to match your database name
                 mycursor=mydb.cursor()
                 #messagebox.showerror("","Connected to database")
@@ -59,11 +59,13 @@ class Login(ct.CTk):
                 
                 myresult=mycursor.fetchone()
                 if myresult != None:
-                    messagebox.showerror("","Login Successful")
+                    messagebox.showerror("Success","Login Successful")
+                    self.label2.configure(text="Login Successful")
                 else:
-                    messagebox.showerror("","Login Failed")
+                    messagebox.showerror("Failed","Login Failed")
+                    self.label2.configure(text="Login Failed")
             except:
-                messagebox.showerror("","Couldn't connect to database")
+                messagebox.showerror("Failed","Couldn't connect to database")
             
 
 app = Login()
