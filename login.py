@@ -46,8 +46,8 @@ class Login(ct.CTk):
             try:
                 #database credentials and information ... i named it registration .. you can name it whatever you want
                 mydb=msql.connect(host="localhost", 
-                                user='database_username',# change username to match your database user
-                                password='database_password', # change pass
+                                user='root',# change username to match your database user
+                                password='QueueThatW@69', # change pass
                                 database='registration')# change database to match your database name
                 mycursor=mydb.cursor()
                 #messagebox.showerror("","Connected to database")
@@ -55,8 +55,9 @@ class Login(ct.CTk):
                 mycursor.execute(command)
                 # we will execute a command to get username and password from table (login) ... you can call the table whatever you want too
                 command="select * from login where username=%s and password=%s" # change table name to match your target table name
-                mycursor.execute(command,(username,password))
+                mycursor.execute(command,(username,password)) #first and second %s will be replaced with username and password passed into mycursor.execute() 
                 
+                # fetches and returns a single query with the username and password we passed .... or returns None if not found
                 myresult=mycursor.fetchone()
                 if myresult != None:
                     messagebox.showerror("Success","Login Successful")

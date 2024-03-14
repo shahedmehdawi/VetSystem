@@ -10,7 +10,7 @@ This is a software security course project about a desktop app mainly about note
 ```pip install customtkinter```
 
 **2. mysql connector**
-```pip install mysql-connector```
+```pip install mysql-connector-python```
 
 **3. Pillow**
 ```pip install pillow```
