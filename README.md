@@ -14,3 +14,7 @@ This is a software security course project about a desktop app mainly about note
 
 **3. Pillow**
 ```pip install pillow```
+
+
+![Screenshot of a comment on a GitHub issue showing an image, added in the Markdown, of an Octocat smiling and raising a tentacle.]
+(https://ibb.co/djRQt6c)
