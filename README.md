@@ -1,7 +1,6 @@
-# Software Security Project - A Productivity and Habit Tracker Desktop App
+# Pet Registraion & Management System for vet centres - A Software Security Project
 
-This is a software security course project about a desktop app mainly about note-taking, habit tracking and managing productivity.
-
+This is a software security project aimed at building a software for managing pets within vet centers using a secure and a well designed software infrastructure.
 ## Requirements
 
 > The Following Python Packages:
