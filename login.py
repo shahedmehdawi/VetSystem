@@ -14,7 +14,7 @@ class Login(ct.CTk):
     def __init__(self):
         super().__init__()
         self.title("Login")
-        self.geometry("500x450")
+        self.geometry("600x450")
         
         self.frame1 = ct.CTkFrame(self, height=500, width=400)
         self.frame1.pack(pady=20)
