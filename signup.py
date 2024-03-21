@@ -6,9 +6,9 @@ import bcrypt
 
 
 HOST = "localhost"
-USER = "your_username"
-PASSWORD = "your_password"
-DATABASE = "your_database_name"
+USER = "root"
+PASSWORD = "QueueThatW@69"
+DATABASE = "registration"
 
 class Signup(ct.CTk):
     def __init__(self):
@@ -71,8 +71,8 @@ class Signup(ct.CTk):
         salt = bcrypt.gensalt(rounds=10)
         hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
 
-        sql = "INSERT INTO users (username, password_hash, name, email) VALUES (%s, %s, %s, %s)"
-        val = (username, hashed_password, name, email)
+        sql = "INSERT INTO users (username, password_hash, name, email, salt) VALUES (%s, %s, %s, %s, %s)"
+        val = (username, hashed_password, name, email, salt)
         try:
             cursor.execute(sql, val)
             mydb.commit()

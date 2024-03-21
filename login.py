@@ -3,12 +3,14 @@ import tkinter as ttk
 from tkinter import messagebox
 import PIL
 import mysql.connector as msql
+import bcrypt
+from Crypto.Util.number import long_to_bytes
 
 
 ct.set_appearance_mode("dark")  
 ct.set_default_color_theme("green")
 
-img = PIL.Image.open("./Assets/png-login.png")
+img = PIL.Image.open("./Assets/png-login.png") # change to match repo of image
 
 class Login(ct.CTk):
     def __init__(self):
@@ -48,23 +50,28 @@ class Login(ct.CTk):
                 mydb=msql.connect(host="localhost", 
                                 user='username',# change username to match your database user
                                 password='password', # change pass
-                                database='registration')# change database to match your database name
+                                database='database_name')# change database to match your database name
                 mycursor=mydb.cursor()
                 #messagebox.showerror("","Connected to database")
                 command = "use registration"
                 mycursor.execute(command)
-                # we will execute a command to get username and password from table (login) ... you can call the table whatever you want too
-                command="select * from login where username=%s and password=%s" # change table name to match your target table name
-                mycursor.execute(command,(username,password)) #first and second %s will be replaced with username and password passed into mycursor.execute() 
+                # we will execute a command to get username, password_hash and salt from table (users) ... you can call the table whatever you want too
+                command="select username, password_hash , salt from users where username=%s" # change table name to match your target table name
+                mycursor.execute(command,(username,)) # %s will be replaced with username passed into mycursor.execute() 
                 
                 # fetches and returns a single query with the username and password we passed .... or returns None if not found
-                myresult=mycursor.fetchone()
-                if myresult != None:
-                    messagebox.showerror("Success","Login Successful")
-                    self.label2.configure(text="Login Successful")
-                else:
+                myresult = mycursor.fetchone()
+                if myresult == None:
                     messagebox.showerror("Failed","Login Failed")
                     self.label2.configure(text="Login Failed")
+                else:
+                    stored_pass_hash = myresult[1]
+                    salt = myresult[2].decode()
+                    
+                    hashed_password = bcrypt.hashpw(password.encode(), salt.encode()).decode()
+                    if hashed_password == stored_pass_hash:               
+                        messagebox.showerror("Success","Login Successful")
+                        self.label2.configure(text="Login Successful")
             except:
                 messagebox.showerror("Failed","Couldn't connect to database")
             
