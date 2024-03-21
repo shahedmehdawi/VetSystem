@@ -1,59 +1,87 @@
 import tkinter
 from tkinter import messagebox
-import customtkinter
+import customtkinter as ct
 from PIL import ImageTk, Image
 import mysql.connector as msql
 
 
 
-class LoginApp:
+class LoginApp(ct.CTk):
     def __init__(self):
-        self.app = customtkinter.CTk()  # Creating custom tkinter window
-        self.app.geometry("600x440")
-        self.app.title('Login')
+        super().__init__()
+        self.geometry("600x440")
+        self.title('Login')
 
-        self.imagee = Image.open("cat.png")
+        ### Load the background image
+        self.background_image_original = Image.open("cat.png")
 
-        self.img1 = ImageTk.PhotoImage(self.imagee)
-        self.img_copy=Image.open("cat.png").copy()
+        ### Create a PhotoImage object from the original background image
+        self.background_image = ImageTk.PhotoImage(self.background_image_original)
+
+        ### Create a copy of the background image for resizing
+        self.background_image_copy = self.background_image_original.copy()
         
-        self.l1 = customtkinter.CTkLabel(master=self.app, image=self.img1)
-        self.l1.pack(fill="both", expand=True)
-        self.l1.bind('<Configure>', self._resize_image)
+        ### Create and configure the background label
+        self.background_label = ct.CTkLabel(master=self, image=self.background_image)
+        self.background_label.pack(fill="both", expand=True)
+        self.background_label.bind('<Configure>', self._resize_image)
+        
         # Creating custom frame
-        self.frame = customtkinter.CTkFrame(master=self.l1, width=320, height=360, corner_radius=15)
-        self.frame.place(relx=0.5, rely=0.5, anchor=tkinter.CENTER)
+        self.login_frame = ct.CTkFrame(master=self.background_label, width=320, height=360, corner_radius=15)
+        self.login_frame.place(relx=0.5, rely=0.5, anchor=tkinter.CENTER)
 
-        self.l2 = customtkinter.CTkLabel(master=self.frame, text="Log into your Account", font=('Century Gothic', 20))
-        self.l2.place(x=50, y=45)
+        # Label for login title
+        self.login_title_label = ct.CTkLabel(master=self.login_frame, text="Log into your Account", font=('Century Gothic', 20))
+        self.login_title_label.place(x=50, y=45)
 
-        self.entry1 = customtkinter.CTkEntry(master=self.frame, width=220, placeholder_text='Username')
-        self.entry1.place(x=50, y=110)
+        # Entry widget for username
+        self.username_entry = ct.CTkEntry(master=self.login_frame, width=220, placeholder_text='Username')
+        self.username_entry.place(x=50, y=110)
 
-        self.entry2 = customtkinter.CTkEntry(master=self.frame, width=220, placeholder_text='Password', show="*")
-        self.entry2.place(x=50, y=165)
+        # Entry widget for password
+        self.password_entry = ct.CTkEntry(master=self.login_frame, width=220, placeholder_text='Password', show="*")
+        self.password_entry.place(x=50, y=165)
 
-        self.l3 = customtkinter.CTkLabel(master=self.frame, text="Forget password?", font=('Century Gothic', 12))
-        self.l3.place(x=155, y=195)
+        # Label for forget password
+        self.forget_password_label = ct.CTkLabel(master=self.login_frame, text="Forget password?", font=('Century Gothic', 12))
+        self.forget_password_label.place(x=155, y=195)
 
-        # Create custom button
-        self.button1 = customtkinter.CTkButton(master=self.frame, width=220, text="Login", command=self.button_function, corner_radius=6)
-        self.button1.place(x=50, y=240)
+        # Button for login
+        self.login_button = ct.CTkButton(master=self.login_frame, width=220, text="Login", command=self.button_function, corner_radius=6)
+        self.login_button.place(x=50, y=240)
 
-        self.img2 = customtkinter.CTkImage(Image.open("cat.png").resize((5, 5), Image.ADAPTIVE))
-        self.img3 = customtkinter.CTkImage(Image.open("cat.png").resize((5, 5), Image.ADAPTIVE))
-        self.button2 = customtkinter.CTkButton(master=self.frame, image=self.img2, text="Google", width=100, height=20, compound="left", fg_color='white', text_color='black', hover_color='#AFAFAF')
-        self.button2.place(x=50, y=290)
+        # Custom buttons for Google and Facebook
+        self.google_image = ct.CTkImage(Image.open("cat.png").resize((5, 5), Image.ADAPTIVE))
+        self.facebook_image = ct.CTkImage(Image.open("cat.png").resize((5, 5), Image.ADAPTIVE))
+        self.google_button = ct.CTkButton(master=self.login_frame, image=self.google_image, text="Google", width=100, height=20, compound="left", fg_color='white', text_color='black', hover_color='#AFAFAF')
+        self.google_button.place(x=50, y=290)
 
-        self.button3 = customtkinter.CTkButton(master=self.frame, image=self.img3, text="Facebook", width=100, height=20, compound="left", fg_color='white', text_color='black', hover_color='#AFAFAF')
-        self.button3.place(x=170, y=290)
+        self.facebook_button = ct.CTkButton(master=self.login_frame, image=self.facebook_image, text="Facebook", width=100, height=20, compound="left", fg_color='white', text_color='black', hover_color='#AFAFAF')
+        self.facebook_button.place(x=170, y=290)
 
-        self.username = tkinter.StringVar()
-        self.password = tkinter.StringVar()
+        # Variables for username and password
+        self.username_var = tkinter.StringVar()
+        self.password_var = tkinter.StringVar()
 
-        self.label2 = customtkinter.CTkLabel(master=self.frame, text="", font=('Century Gothic', 12))
-        self.label2.place(x=50, y=320)
-        self.app.mainloop()
+        # Label for error message
+        self.error_label = ct.CTkLabel(master=self.login_frame, text="", font=('Century Gothic', 12))
+        self.error_label.place(x=50, y=320)
+        self.mainloop()  
+    
+    # Function to resize the background image (cat image)
+    def _resize_image(self, event):
+        new_width = event.width
+        new_height = event.height
+
+        # Resize the background image copy
+        resized_image = self.background_image_copy.resize((new_width, new_height))
+
+        # Convert the resized image to PhotoImage format
+        resized_photo_image = ImageTk.PhotoImage(resized_image)
+
+        # Configure the background label to display the resized image
+        self.background_label.configure(image=resized_photo_image)
+
 
     def button_function(self):
         username = self.entry1.get()
@@ -85,27 +113,18 @@ class LoginApp:
                     ##messagebox.showerror("Success", "Login Successful")
                     self.label2.configure(text="Login Successful")
                     self.app.destroy()            # destroy current window and creating new one 
-                    w = customtkinter.CTk()  
-                    w.geometry("1280x720")
-                    w.title('Welcome')
-                    l1=customtkinter.CTkLabel(master=w, text="welcome "+username ,font=('Century Gothic',60))
-                    l1.place(relx=0.5, rely=0.5,  anchor=tkinter.CENTER)
-                    w.mainloop()
+                    new_window = ct.CTk()  ## creating new window after destroying the previous one
+                    new_window.geometry("1280x720")
+                    new_window.title('Welcome')
+                    label1=ct.CTkLabel(master=new_window, text="welcome "+username ,font=('Century Gothic',60))
+                    label1.place(relx=0.5, rely=0.5,  anchor=tkinter.CENTER)
+                    new_window.mainloop()
                 else:
                     messagebox.showerror("Failed", "Login Failed")
                     self.label2.configure(text="Login Failed")
             except:
                 messagebox.showerror("Failed", "Couldn't connect to database")
 
-    def _resize_image(self,event):
-
-        new_width = event.width
-        new_height = event.height
-
-        self.imagee = self.img_copy.resize((new_width, new_height))
-
-        self.background_image = ImageTk.PhotoImage(self.imagee)
-        self.l1.configure(image = self.background_image)
 
 
 
