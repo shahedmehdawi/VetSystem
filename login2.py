@@ -3,7 +3,9 @@ from tkinter import messagebox
 import customtkinter as ct
 from PIL import ImageTk, Image
 import mysql.connector as msql
-
+import bcrypt
+from bcrypt import hashpw
+from bcrypt import*
 
 
 class LoginApp(ct.CTk):
@@ -13,7 +15,7 @@ class LoginApp(ct.CTk):
         self.title('Login')
 
         ### Load the background image
-        self.background_image_original = Image.open("cat.png")
+        self.background_image_original = Image.open("./Desktop/tkinter/cat.png")
 
         ### Create a PhotoImage object from the original background image
         self.background_image = ImageTk.PhotoImage(self.background_image_original)
@@ -51,8 +53,8 @@ class LoginApp(ct.CTk):
         self.login_button.place(x=50, y=240)
 
         # Custom buttons for Google and Facebook
-        self.google_image = ct.CTkImage(Image.open("cat.png").resize((5, 5), Image.ADAPTIVE))
-        self.facebook_image = ct.CTkImage(Image.open("cat.png").resize((5, 5), Image.ADAPTIVE))
+        self.google_image = ct.CTkImage(Image.open("./Desktop/tkinter/cat.png").resize((5, 5), Image.ADAPTIVE))
+        self.facebook_image = ct.CTkImage(Image.open("./Desktop/tkinter/cat.png").resize((5, 5), Image.ADAPTIVE))
         self.google_button = ct.CTkButton(master=self.login_frame, image=self.google_image, text="Google", width=100, height=20, compound="left", fg_color='white', text_color='black', hover_color='#AFAFAF')
         self.google_button.place(x=50, y=290)
 
@@ -86,44 +88,51 @@ class LoginApp(ct.CTk):
     def button_function(self):
         username = self.entry1.get()
         password = self.entry2.get()
-       ## salt = bcrypt.gensalt()
-      ##  hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
-       ## print(salt," //// ", hashed_password)
+
         if not (username) or not (password):
-            self.label2.configure(text="please enter username and password")
+            self.label2.configure(text="Please enter username and password")
             messagebox.showerror("Error", "Type Username and Password")
         else:
             try:
-                # database credentials and information ... i named it new_schema .. you can name it whatever you want
+                # Connect to the database
                 mydb = msql.connect(host="localhost",
-                                    user='root',  # change username to match your database user
-                                    password='Bella*8234',  # change pass
-                                database='new_schema')  # change database to match your database name
+                                    user='root',
+                                    password='Bella*8234',
+                                    database='new_schema')
                 mycursor = mydb.cursor()
-                # messagebox.showerror("","Connected to database")
-                command = "use new_schema"
-                mycursor.execute(command)
-                # we will execute a command to get username and password from table (login) ... you can call the table whatever you want too
-                command = "select * from login where username=%s and password=%s"  # change table name to match your target table name
-                mycursor.execute(command, (username, password))  # first and second %s will be replaced with username and password passed into mycursor.execute()
 
-                # fetches and returns a single query with the username and password we passed .... or returns None if not found
-                myresult = mycursor.fetchone()
-                if myresult is not None:
-                    ##messagebox.showerror("Success", "Login Successful")
-                    self.label2.configure(text="Login Successful")
-                    self.app.destroy()            # destroy current window and creating new one 
-                    new_window = ct.CTk()  ## creating new window after destroying the previous one
-                    new_window.geometry("1280x720")
-                    new_window.title('Welcome')
-                    label1=ct.CTkLabel(master=new_window, text="welcome "+username ,font=('Century Gothic',60))
-                    label1.place(relx=0.5, rely=0.5,  anchor=tkinter.CENTER)
-                    new_window.mainloop()
+                # Query to fetch salt and hashed password from the database based on the provided username
+                command = "SELECT password, salt FROM login2 WHERE username = %s"
+                mycursor.execute(command, (username,))
+                row = mycursor.fetchone()
+
+                if row is not None:
+                    hashed_password_fromDB= row[0]
+                    salt_fromDB= row[1]
+
+                    # Hash the input password using the retrieved salt
+                    hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt_fromDB)
+
+                    # Check if the hashed password matches the hashed password from the database
+                    if bcrypt.checkpw(hashed_password, hashed_password_fromDB):
+                        self.label2.configure(text="Login Successful")
+                        self.app.destroy()
+                        new_window = ct.CTk()  ## creating new window after destroying the previous one
+                        new_window.geometry("1280x720")
+                        new_window.title('Welcome')
+                        label1=ct.CTkLabel(master=new_window, text="welcome "+username ,font=('Century Gothic',60))
+                        label1.place(relx=0.5, rely=0.5,  anchor=tkinter.CENTER)
+                        new_window.mainloop()
+
+                    else:
+                        messagebox.showerror("Failed", "Login Failed")
+                        self.label2.configure(text="Login Failed")
                 else:
-                    messagebox.showerror("Failed", "Login Failed")
-                    self.label2.configure(text="Login Failed")
+                    messagebox.showerror("Failed", "User not found")
+                    self.label2.configure(text="User not found")
             except:
                 messagebox.showerror("Failed", "Couldn't connect to database")
+
 
 
 
