@@ -52,10 +52,10 @@ class Signup(ct.CTk):
     def connect_db(self):
         try:
             global mydb, cursor
-            mydb=mysql.connect(host="localhost", 
-                                user='root',
-                                password='QueueThatW@69',
-                                database='registration')
+            mydb=mysql.connect(host=HOST, 
+                                user=USER,
+                                password=PASSWORD,
+                                database=DATABASE)
             cursor = mydb.cursor()
             command = "use registration"
             cursor.execute(command)
