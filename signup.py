@@ -68,7 +68,7 @@ class Signup(ct.CTk):
         name = self.signup_name_entry.get()
         email = self.signup_email_entry.get()
 
-        salt = bcrypt.gensalt(rounds=10)
+        salt = bcrypt.gensalt(rounds=14)
         hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
 
         sql = "INSERT INTO users (username, password_hash, name, email, salt) VALUES (%s, %s, %s, %s, %s)"
