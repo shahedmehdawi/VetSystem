@@ -12,7 +12,7 @@ ct.set_appearance_mode("dark")
 ct.set_default_color_theme("green")
 
 img = PIL.Image.open("cat.png") # change to match repo of image
-buttonClicked = False # Bfore first click
+
 
 
 class Login(ct.CTk):
@@ -55,9 +55,9 @@ class Login(ct.CTk):
             try:
                 #database credentials and information ... i named it registration .. you can name it whatever you want
                 mydb=msql.connect(host="localhost", 
-                                user='root',# change username to match your database user
-                                password='Bella*8234', # change pass
-                                database='new_schema')# change database to match your database name
+                                user='user',# change username to match your database user
+                                password='password', # change pass
+                                database='databse')# change database to match your database name
                 mycursor=mydb.cursor()
                 #messagebox.showerror("","Connected to database")
                 command = "use new_schema"
