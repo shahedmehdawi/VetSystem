@@ -6,9 +6,9 @@ import bcrypt
 
 
 HOST = "localhost"
-USER = "root"
-PASSWORD = "QueueThatW@69"
-DATABASE = "registration"
+USER = "username" # change username
+PASSWORD = "password" # change password
+DATABASE = "database" # change database
 
 class Signup(ct.CTk):
     def __init__(self):
