@@ -77,10 +77,10 @@ class Signup(ct.CTk):
             cursor.execute(sql, val)
             mydb.commit()
             messagebox.showinfo("Success", "User registered successfully!")
-            # Clear signup form fields
+
         except mysql.Error as err:
             messagebox.showerror("Signup Error", f"Error registering user: {err}")
 
-# Create the signup window instance
+
 signup_window = Signup()
 signup_window.mainloop()
