@@ -1,73 +1,84 @@
 import customtkinter as ct
-import tkinter as ttk
 from tkinter import messagebox
-import PIL
-import mysql.connector as msql
+from PIL import Image
+import mysql.connector
+import bcrypt
 
+# Database connection details (replace with yours)
+HOST = "localhost"
+USER = "your_username"
+PASSWORD = "your_password"
+DATABASE = "your_database_name"
 
-ct.set_appearance_mode("dark")  
-ct.set_default_color_theme("green")
-
-img = PIL.Image.open("./Assets/png-login.png")
-
-class Login(ct.CTk):
+class Signup(ct.CTk):
     def __init__(self):
         super().__init__()
-        self.title("Login")
-        self.geometry("600x450")
-        
-        self.frame1 = ct.CTkFrame(self, height=500, width=400)
-        self.frame1.pack(pady=20)
-        
-        self.label1 = ct.CTkLabel(self.frame1, text="Login Page",
-                        font=("Helvetica", 20))
-        self.label1.pack(pady=20, padx=10)
-        
-        self.label2 = ct.CTkLabel(self, text="",
-                        font=("Helvetica", 16))
-        self.label2.pack(pady=20, padx=10)
-        
-        self.username = ct.CTkEntry(self.frame1, placeholder_text="enter username")
-        self.username.pack(pady=10)
-        
-        self.password = ct.CTkEntry(self.frame1, placeholder_text="enter password", show="*")
-        self.password.pack(pady=10)
-        
-        self.button1 = ct.CTkButton(self.frame1, text="login", command=self.login_check, image=ct.CTkImage(dark_image=img, light_image=img))
-        self.button1.pack(pady=20, padx=120)
-            
-    def login_check(self):
-        username = self.username.get()
-        password = self.password.get()
-        if not(username) or not(password):
-            self.label2.configure(text="please enter username and password")
-            messagebox.showerror("Error", "Type Username and Password")
-        else:
-            try:
-                #database credentials and information ... i named it registration .. you can name it whatever you want
-                mydb=msql.connect(host="localhost", 
-                                user='username',# change username to match your database user
-                                password='password', # change pass
-                                database='registration')# change database to match your database name
-                mycursor=mydb.cursor()
-                #messagebox.showerror("","Connected to database")
-                command = "use registration"
-                mycursor.execute(command)
-                # we will execute a command to get username and password from table (login) ... you can call the table whatever you want too
-                command="select * from login where username=%s and password=%s" # change table name to match your target table name
-                mycursor.execute(command,(username,password)) #first and second %s will be replaced with username and password passed into mycursor.execute() 
-                
-                # fetches and returns a single query with the username and password we passed .... or returns None if not found
-                myresult=mycursor.fetchone()
-                if myresult != None:
-                    messagebox.showerror("Success","Login Successful")
-                    self.label2.configure(text="Login Successful")
-                else:
-                    messagebox.showerror("Failed","Login Failed")
-                    self.label2.configure(text="Login Failed")
-            except:
-                messagebox.showerror("Failed","Couldn't connect to database")
-            
+        self.geometry("400x500")
+        self.title("Vet Management System - Signup")
 
-app = Login()
-app.mainloop()
+        self.signup_frame = ct.CTkFrame(master=self, width=400, height=300)
+        self.signup_frame.pack(pady=20)
+        
+        signup_username_label = ct.CTkLabel(master=self.signup_frame, text="Username:", font=("Roboto", 12))
+        signup_username_label.pack(pady=10,padx=100)
+        signup_username_entry = ct.CTkEntry(master=self.signup_frame, width=200)
+        signup_username_entry.pack()
+
+        signup_password_label = ct.CTkLabel(master=self.signup_frame, text="Password:", font=("Roboto", 12))
+        signup_password_label.pack(pady=10)
+        signup_password_entry = ct.CTkEntry(master=self.signup_frame, width=200, show="*")  # Hide password characters
+        signup_password_entry.pack()
+
+        signup_name_label = ct.CTkLabel(master=self.signup_frame, text="Name:", font=("Roboto", 12))
+        signup_name_label.pack(pady=10)
+        signup_name_entry = ct.CTkEntry(master=self.signup_frame, width=200)
+        signup_name_entry.pack()
+
+        signup_email_label = ct.CTkLabel(master=self.signup_frame, text="Email:", font=("Roboto", 12))
+        signup_email_label.pack(pady=5)
+        signup_email_entry = ct.CTkEntry(master=self.signup_frame, width=200)
+        signup_email_entry.pack(pady=10)
+
+        self.signup_button = ct.CTkButton(self, text="Sign Up", command=self.signup_user)
+        self.signup_button.pack(pady=20)
+
+        self.image = Image.open("Assets/cat_bg.png")
+        self.bg_image = ct.CTkImage(light_image=self.image, dark_image=self.image,size=(400,500))
+        self.bg_label = ct.CTkLabel(master=self,image=self.bg_image)
+        self.bg_label.pack(fill="both")
+        
+        try:
+            self.connect_db()
+        except:
+            pass
+        
+    def connect_db(self):
+        try:
+            global db, cursor
+            db = mysql.connector.connect(host=HOST, user=USER, password=PASSWORD, database=DATABASE)
+            cursor = db.cursor()
+        except mysql.connector.Error as err:
+            messagebox.showerror("Database Error", f"Error connecting to database: {err}")
+
+    def signup_user(self):
+        username = self.signup_username_entry.get()
+        password = self.signup_password_entry.get()
+        name = self.signup_name_entry.get()
+        email = self.signup_email_entry.get()
+
+        salt = bcrypt.gensalt(rounds=10)
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
+
+        sql = "INSERT INTO users (username, password_hash, name,) VALUES (%s, %s, ...)"
+        val = (username, hashed_password, ...)
+        try:
+            cursor.execute(sql, val)
+            db.commit()
+            messagebox.showinfo("Success", "User registered successfully!")
+            # Clear signup form fields
+        except mysql.connector.Error as err:
+            messagebox.showerror("Signup Error", f"Error registering user: {err}")
+
+# Create the signup window instance
+signup_window = Signup()
+signup_window.mainloop()
