@@ -1,4 +1,4 @@
-# Pet Registrayion & Management System for vet centers - A Software Security Project
+# Pet Registration & Management System for vet centers - A Software Security Project
 
 This is a software security project aimed at building a software for managing pets within vet centers using a secure and a well designed software infrastructure.
 ## Requirements
