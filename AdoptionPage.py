@@ -5,14 +5,26 @@ from PIL import ImageTk, Image
 from tkinter import messagebox
 
 
+
+def show_window(parent, width, height, title ,text): # I made this cuz tkinter messageboxes make the program trigger segmentation faults for some reason
+    def close():
+        window.destroy()
+    window = ct.CTkToplevel(parent)
+    window.title(f"{title}")
+    window.geometry(f"{width}x{height}")
+    window_label = ct.CTkLabel(window,text=f"{text}")
+    window_label.pack(pady=5)
+    new_button = ct.CTkButton(window, text="Ok", command=close)
+    new_button.pack(pady=5)
+
 class PetAdoption(ct.CTk):
     class DatabaseManager:
         def __init__(self):
             self.db = mysql.connector.connect(
                 host="localhost",
                 user="root",
-                password="Bella*8234",
-                database="new_schema"
+                password="QueueThatW@69",
+                database="registration"
             )
             self.cursor = self.db.cursor()
 
@@ -24,7 +36,7 @@ class PetAdoption(ct.CTk):
             query = "INSERT INTO customer (name, email, location, adopted_pet) VALUES (%s, %s, %s, %s)"
             values = (name, email, location, pet_name)
             self.cursor.execute(query, values)
-            self.db.commit()    
+            self.db.commit()
 
     def __init__(self):
         super().__init__()
