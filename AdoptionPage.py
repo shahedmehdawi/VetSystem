@@ -10,9 +10,9 @@ class PetAdoption(ct.CTk):
         def __init__(self):
             self.db = mysql.connector.connect(
                 host="localhost",
-                user="root",
-                password="Bella*8234",
-                database="new_schema"
+                user="user",
+                password="password",
+                database="database"
             )
             self.cursor = self.db.cursor()
 
