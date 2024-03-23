@@ -92,8 +92,8 @@ class Signup(ct.CTk):
                     success_window.destroy()
                     success_window.update()
                     self.destroy()
-                    # from login import Login
-                    # Login_Page = Login()
+                    from login import Login
+                    Login_Page = Login()
                 
                 
                 cursor.execute(sql, val)
