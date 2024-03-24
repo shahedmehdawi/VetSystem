@@ -34,23 +34,22 @@ class PetAdoption(ct.CTk):
         self.setup_gui()
 
     def customer_details(self, pet_data):
-        # Destroy the current window
         self.destroy()
 
-        # Create and show the CustomerWindow
+    
         new_window = ct.CTk()  
         new_window.geometry("800x700")
         new_window.title('Adoption Details')
 
-        # Add colorful and nice design
-        new_window.configure()  # Pink background color
+        
+        new_window.configure() 
 
-        # Title label
+        
         title_label = ct.CTkLabel(new_window, text="🐾 Adoption Details 🐾", font=("Arial", 24, "bold"))
         title_label.pack(pady=20)
         sub_title = ct.CTkLabel(new_window, text="pet you picked: ", font=("Arial", 18, "bold"), text_color="lightpink")
         sub_title.pack(pady=30)
-        # Pet information
+        
         pet_name_label = ct.CTkLabel(new_window, text=f"Name: {pet_data[0]}", font=("Arial", 12))
         pet_name_label.pack()
         species_label = ct.CTkLabel(new_window, text=f"Species: {pet_data[1]}", font=("Arial", 12))
@@ -59,19 +58,19 @@ class PetAdoption(ct.CTk):
         age_label.pack()
         sub_title2 = ct.CTkLabel(new_window, text="to confirm your order ฅ^•ﻌ•^ฅ: ", font=("Arial", 18, "bold"), text_color="lightpink")
         sub_title2.pack(pady=50)
-        # Name input field
+       
         name_label = ct.CTkLabel(new_window, text="Enter your Name:", font=("Arial", 12))
         name_label.pack()
         name_entry = ct.CTkEntry(new_window, font=("Arial", 12), width=300,corner_radius=50,fg_color=("lightpink"), text_color="black")
         name_entry.pack()
 
-        # Email input field
+        
         email_label = ct.CTkLabel(new_window, text="Enter your Email:", font=("Arial", 12))
         email_label.pack()
         email_entry = ct.CTkEntry(new_window, font=("Arial", 12), width=300,corner_radius=50,fg_color=("lightpink"), text_color="black")
         email_entry.pack()
 
-        # Location input field
+        
         location_label = ct.CTkLabel(new_window, text="Enter your Location:", font=("Arial", 12))
         location_label.pack()
         location_entry = ct.CTkEntry(new_window, font=("Arial", 12), width=300,corner_radius=50,fg_color=("lightpink"), text_color="black")
@@ -90,7 +89,7 @@ class PetAdoption(ct.CTk):
             pet_name = pet_data[0]  # Get the pet name
 
             self.db_manager.insert_customer(name, email, location, pet_name)
-            # Show a message box
+            
             messagebox.showinfo("Adoption Success", f"You adopted {pet_name} successfully! 🐱 Now please wait for delivery.")
             new_window.destroy()  # Close the window after submission
 
@@ -104,7 +103,7 @@ class PetAdoption(ct.CTk):
         title_label = ct.CTkLabel(self, text="Pets for Adoption <3", font=("Arial", 50))
         title_label.pack(pady=80)
 
-        # Fetch pet information including image paths from the database
+        # /////// Fetch pet information including image path from the database
         cursor = self.db_manager.cursor
         cursor.execute("SELECT name, species, age, image_path FROM pets")
         pets_data = cursor.fetchall()
@@ -129,7 +128,7 @@ class PetAdoption(ct.CTk):
             image_label.photo = photo
             image_label.pack()
 
-            # Bind a function to each image label to submit customer details when clicked
+            # ////// Bind a function to each image label to submit customer details when clicked
             image_label.bind("<Button-1>", lambda event, pet_data=pet_data: self.customer_details(pet_data))
 
     def run(self):

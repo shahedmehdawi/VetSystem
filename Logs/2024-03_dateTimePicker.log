@@ -1,0 +1,68 @@
+2024-03-22 21:54:43 : DEBUG : <module> : 439 : --- Start ---
+2024-03-22 21:54:43 : DEBUG : load_ui : 405 : - Load UI -
+2024-03-22 21:54:43 : ERROR : <module> : 447 : Failed
+2024-03-22 21:54:43 : ERROR : <module> : 448 : No section: 'tkinter'
+Traceback (most recent call last):
+  File "C:\Users\LENOVO\Desktop\tkinter\Project\Desktop-application\dateTimePicker.py", line 444, in <module>
+    load_ui()
+  File "C:\Users\LENOVO\Desktop\tkinter\Project\Desktop-application\dateTimePicker.py", line 410, in load_ui
+    ROOT.title(CONFIG.get('tkinter', 'title'))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\configparser.py", line 797, in get
+    d = self._unify_values(section, vars)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\configparser.py", line 1168, in _unify_values
+    raise NoSectionError(section) from None
+configparser.NoSectionError: No section: 'tkinter'
+2024-03-22 21:54:43 : DEBUG : <module> : 451 : --- End ---
+2024-03-22 21:56:13 : DEBUG : <module> : 439 : --- Start ---
+2024-03-22 21:56:13 : DEBUG : load_ui : 405 : - Load UI -
+2024-03-22 21:56:13 : ERROR : <module> : 446 : Failed
+2024-03-22 21:56:13 : ERROR : <module> : 447 : No section: 'tkinter'
+Traceback (most recent call last):
+  File "C:\Users\LENOVO\Desktop\tkinter\Project\Desktop-application\dateTimePicker.py", line 443, in <module>
+    load_ui()
+  File "C:\Users\LENOVO\Desktop\tkinter\Project\Desktop-application\dateTimePicker.py", line 410, in load_ui
+    ROOT.title(CONFIG.get('tkinter', 'title'))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\configparser.py", line 797, in get
+    d = self._unify_values(section, vars)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\configparser.py", line 1168, in _unify_values
+    raise NoSectionError(section) from None
+configparser.NoSectionError: No section: 'tkinter'
+2024-03-22 21:56:13 : DEBUG : <module> : 450 : --- End ---
+2024-03-22 22:02:13 : DEBUG : <module> : 439 : --- Start ---
+2024-03-22 22:02:13 : DEBUG : load_ui : 405 : - Load UI -
+2024-03-22 22:02:13 : ERROR : <module> : 446 : Failed
+2024-03-22 22:02:13 : ERROR : <module> : 447 : No section: 'tkinter'
+Traceback (most recent call last):
+  File "C:\Users\LENOVO\Desktop\tkinter\Project\Desktop-application\dateTimePicker.py", line 443, in <module>
+    load_ui()
+  File "C:\Users\LENOVO\Desktop\tkinter\Project\Desktop-application\dateTimePicker.py", line 410, in load_ui
+    ROOT.title(CONFIG.get('tkinter', 'title'))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\configparser.py", line 797, in get
+    d = self._unify_values(section, vars)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\configparser.py", line 1168, in _unify_values
+    raise NoSectionError(section) from None
+configparser.NoSectionError: No section: 'tkinter'
+2024-03-22 22:02:13 : DEBUG : <module> : 450 : --- End ---
+2024-03-22 22:04:08 : DEBUG : <module> : 439 : --- Start ---
+2024-03-22 22:04:08 : DEBUG : load_ui : 405 : - Load UI -
+2024-03-22 22:04:08 : ERROR : <module> : 446 : Failed
+2024-03-22 22:04:08 : ERROR : <module> : 447 : No section: 'tkinter'
+Traceback (most recent call last):
+  File "C:\Users\LENOVO\Desktop\tkinter\Project\Desktop-application\dateTimePicker.py", line 443, in <module>
+    load_ui()
+  File "C:\Users\LENOVO\Desktop\tkinter\Project\Desktop-application\dateTimePicker.py", line 410, in load_ui
+    ROOT.title(CONFIG.get('tkinter', 'title'))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\configparser.py", line 797, in get
+    d = self._unify_values(section, vars)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\configparser.py", line 1168, in _unify_values
+    raise NoSectionError(section) from None
+configparser.NoSectionError: No section: 'tkinter'
+2024-03-22 22:04:08 : DEBUG : <module> : 450 : --- End ---
