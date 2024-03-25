@@ -38,3 +38,28 @@ CREATE TABLE users (
 </pre>
 </details>
 
+<details>
+<summary><b>Available Pets Table</b></summary>
+<pre>
+CREATE TABLE pets (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        species VARCHAR(255) NOT NULL,
+        age VARCHAR(50) NOT NULL,
+        image_path VARCHAR(255) NOT NULL
+);
+</pre>
+</details>
+
+<details>
+<summary><b>Customers Table</b></summary>
+<pre>
+CREATE TABLE `new_schema`.`customer` (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    location VARCHAR(255) NOT NULL,
+    adopted_pet VARCHAR(255) NOT NULL
+);
+</pre>
+</details>
