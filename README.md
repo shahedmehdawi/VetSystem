@@ -24,7 +24,7 @@ This is a software security project aimed at building a software for managing pe
 
 ### Database Tables Utilized
 <details>
-<summary>**Users Table** (bold)</summary>
+<summary><b>Users Table</b></summary>
 ```sql
 CREATE TABLE users (
     UID INT PRIMARY KEY AUTO_INCREMENT,
@@ -37,3 +37,4 @@ CREATE TABLE users (
 );
 ```
 </details>
+
