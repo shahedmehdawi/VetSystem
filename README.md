@@ -24,8 +24,8 @@ This is a software security project aimed at building a software for managing pe
 
 ### Database Tables Utilized
 <details>
-<summary>** Users Table **</summary>
-```
+<summary>**Users Table** (bold)</summary>
+```sql
 CREATE TABLE users (
     UID INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(255) NOT NULL UNIQUE,
