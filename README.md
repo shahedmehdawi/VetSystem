@@ -25,7 +25,7 @@ This is a software security project aimed at building a software for managing pe
 ### Database Tables Utilized
 <details>
 <summary><b>Users Table</b></summary>
-```sql
+<code style="white-space:nowrap;">
 CREATE TABLE users (
     UID INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(255) NOT NULL UNIQUE,
@@ -35,6 +35,6 @@ CREATE TABLE users (
     salt BINARY(16) NOT NULL,  #Move salt before role
     role ENUM('normal_user', 'doctor', 'admin') NOT NULL DEFAULT 'normal_user'
 );
-```
+</code>
 </details>
 
