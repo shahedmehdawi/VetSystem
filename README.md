@@ -23,6 +23,8 @@ This is a software security project aimed at building a software for managing pe
 ![login_page](https://github.com/shahedmehdawi/Desktop-application/assets/140253527/56814f13-e45e-46bc-a848-c57a2892186f)
 
 ### Database Tables Utilized
+> [!NOTE]
+> **Make sure they are all within the same database schema**
 <details>
 <summary><b>Users Table</b></summary>
 <pre>
@@ -54,7 +56,7 @@ CREATE TABLE pets (
 <details>
 <summary><b>Customers Table</b></summary>
 <pre>
-CREATE TABLE `new_schema`.`customer` (
+CREATE TABLE customer (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
