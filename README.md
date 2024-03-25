@@ -22,17 +22,17 @@ This is a software security project aimed at building a software for managing pe
 
 ![login_page](https://github.com/shahedmehdawi/Desktop-application/assets/140253527/56814f13-e45e-46bc-a848-c57a2892186f)
 
-###Database Tables Utilized
+### Database Tables Utilized
 <details>
-<summary>**Users Table**</summary>
+<summary>** Users Table **</summary>
 ```
 CREATE TABLE users (
     UID INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(255) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
     name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL UNIQUE,  # Add email for user contact
-    salt BINARY(16) NOT NULL,  # Move salt before role
+    email VARCHAR(255) NOT NULL UNIQUE,  #Add email for user contact
+    salt BINARY(16) NOT NULL,  #Move salt before role
     role ENUM('normal_user', 'doctor', 'admin') NOT NULL DEFAULT 'normal_user'
 );
 ```
