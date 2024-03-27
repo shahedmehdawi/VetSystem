@@ -6,9 +6,9 @@ import bcrypt
 
 
 HOST = "localhost"
-USER = "username" # change username
-PASSWORD = "password" # change password
-DATABASE = "database" # change database
+USER = "root" # change username
+PASSWORD = "Bella*8234" # change password
+DATABASE = "new_schema" # change database
 
 class Signup(ct.CTk):
     def __init__(self):
@@ -57,7 +57,7 @@ class Signup(ct.CTk):
                                 password=PASSWORD,
                                 database=DATABASE)
             cursor = mydb.cursor()
-            command = "use registration"
+            command = "use new_schema"
             cursor.execute(command)
         except mysql.Error as err:
             messagebox.showerror("Database Error", f"Error connecting to database: {err}")

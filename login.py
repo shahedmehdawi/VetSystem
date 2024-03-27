@@ -48,7 +48,7 @@ class Login(ct.CTk):
             try:
                 #database credentials and information ... i named it registration .. you can name it whatever you want
                 mydb=msql.connect(host="localhost", 
-                                user='username',# change username to match your database user
+                                user='root',# change username to match your database user
                                 password='password', # change pass
                                 database='database_name')# change database to match your database name
                 mycursor=mydb.cursor()
