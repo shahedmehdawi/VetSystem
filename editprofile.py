@@ -6,8 +6,8 @@ import bcrypt
 
 HOST = "localhost"
 USER = "root"  # change username
-PASSWORD = "1234"  # change password
-DATABASE = "login"  # change database
+PASSWORD = "Bella*8234"  # change password
+DATABASE = "new_schema"  # change database
 
 class EditProfile(ct.CTk):
     def __init__(self, username):
@@ -69,7 +69,7 @@ class EditProfile(ct.CTk):
             if new_password:
                 salt = bcrypt.gensalt(rounds=14)
                 hashed_password = bcrypt.hashpw(new_password.encode('utf-8'), salt)
-                command = "UPDATE users SET name = %s, email = %s, password_hash = %s, salt = %s WHERE username = %s"
+                command = "UPDATE users SET name = %s, email = %s, password_hash = %s, salt = %s WHERE username = shahedmehdawi"
                 cursor.execute(command, (name, email, hashed_password, salt, self.username))
             else:
                 command = "UPDATE users SET name = %s, email = %s WHERE username = %s"

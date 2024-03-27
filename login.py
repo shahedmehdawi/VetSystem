@@ -6,7 +6,7 @@ import mysql.connector as msql
 import bcrypt
 from Crypto.Util.number import long_to_bytes
 
-
+username=''
 ct.set_appearance_mode("dark")  
 ct.set_default_color_theme("green")
 
@@ -15,6 +15,7 @@ img = PIL.Image.open("./Assets/png-login.png") # change to match repo of image
 class Login(ct.CTk):
     def __init__(self):
         super().__init__()
+        global username
         self.title("Login")
         self.geometry("600x450")
         
@@ -49,11 +50,11 @@ class Login(ct.CTk):
                 #database credentials and information ... i named it registration .. you can name it whatever you want
                 mydb=msql.connect(host="localhost", 
                                 user='root',# change username to match your database user
-                                password='password', # change pass
-                                database='database_name')# change database to match your database name
+                                password='Bella*8234', # change pass
+                                database='new_schema')# change database to match your database name
                 mycursor=mydb.cursor()
                 #messagebox.showerror("","Connected to database")
-                command = "use registration"
+                command = "use new_schema"
                 mycursor.execute(command)
                 # we will execute a command to get username, password_hash and salt from table (users) ... you can call the table whatever you want too
                 command="select username, password_hash , salt from users where username=%s" # change table name to match your target table name

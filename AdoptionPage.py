@@ -59,22 +59,19 @@ class PetAdoption(ct.CTk):
         sub_title2 = ct.CTkLabel(new_window, text="to confirm your order ฅ^•ﻌ•^ฅ: ", font=("Arial", 18, "bold"), text_color="lightpink")
         sub_title2.pack(pady=50)
        
-        name_label = ct.CTkLabel(new_window, text="Enter your Name:", font=("Arial", 12))
-        name_label.pack()
-        name_entry = ct.CTkEntry(new_window, font=("Arial", 12), width=300,corner_radius=50,fg_color=("lightpink"), text_color="black")
-        name_entry.pack()
-
+       
         
-        email_label = ct.CTkLabel(new_window, text="Enter your Email:", font=("Arial", 12))
-        email_label.pack()
-        email_entry = ct.CTkEntry(new_window, font=("Arial", 12), width=300,corner_radius=50,fg_color=("lightpink"), text_color="black")
-        email_entry.pack()
+        number_label = ct.CTkLabel(new_window, text="Enter your Number:", font=("Arial", 12))
+        number_label.pack()
+        number_entry = ct.CTkEntry(new_window, font=("Arial", 12), width=300,corner_radius=50,fg_color=("lightpink"), text_color="black")
+        number_entry.pack()
 
         
         location_label = ct.CTkLabel(new_window, text="Enter your Location:", font=("Arial", 12))
         location_label.pack()
         location_entry = ct.CTkEntry(new_window, font=("Arial", 12), width=300,corner_radius=50,fg_color=("lightpink"), text_color="black")
         location_entry.pack()
+
 
         submit_button = ct.CTkButton(new_window, text="Submit", font=("Arial", 12))
         submit_button.pack(pady=20)
@@ -83,12 +80,11 @@ class PetAdoption(ct.CTk):
         ##new_window.mainloop()
 
         def submit():
-            name = name_entry.get()
-            email = email_entry.get()
+            number = number_entry.get()
             location = location_entry.get()
             pet_name = pet_data[0]  # Get the pet name
 
-            self.db_manager.insert_customer(name, email, location, pet_name)
+            self.db_manager.insert_customer(number, location, pet_name)
             
             messagebox.showinfo("Adoption Success", f"You adopted {pet_name} successfully! 🐱 Now please wait for delivery.")
             new_window.destroy()  # Close the window after submission
