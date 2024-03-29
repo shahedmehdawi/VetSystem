@@ -65,3 +65,11 @@ CREATE TABLE customer (
 );
 </pre>
 </details>
+
+
+
+### Use Cases
+<details>
+<summary><b>Use Case Diagrams</b></summary>
+idk just some text
+</details>
