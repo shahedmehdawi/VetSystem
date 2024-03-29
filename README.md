@@ -68,7 +68,7 @@ CREATE TABLE customer (
 
 
 
-### Use Cases
+## Use Cases
 <details>
 <summary><b>Use Case Diagrams</b></summary>
 
@@ -77,5 +77,30 @@ CREATE TABLE customer (
 <img src="./Assets_Cat/Diagrams/Doctor%20Use%20Cases.png" width="500" height="500">
 
 <img src="./Assets_Cat/Diagrams/Admin%20Use%20Cases.png" width="500" height="500">
+
+</details>
+
+## Misuse Cases
+<details>
+<summary><b>Login Misuse Cases</b></summary>
+
+<img src="./Assets_Cat/Diagrams/Login Misuse Cases.png" width="500" height="500">
+
+<img src="./Assets_Cat/Diagrams/L1.png" width="500" height="500">
+
+<img src="./Assets_Cat/Diagrams/L2.png" width="500" height="500">
+
+<img src="./Assets_Cat/Diagrams/L3.png" width="500" height="500">
+
+<img src="./Assets_Cat/Diagrams/L4.png" width="500" height="500">
+
+</details>
+
+<details>
+<summary><b>Customer Signup Misuse Cases</b></summary>
+
+<img src="./Assets_Cat/Diagrams/Customer Signup Misuse Cases.png" width="500" height="500">
+
+<img src="./Assets_Cat/Diagrams/S1.png" width="500" height="500">
 
 </details>
