@@ -20,7 +20,7 @@ class Login(ct.CTk):
         super().__init__()
         global username
         self.title("Login")
-        self.geometry("1280x1100")
+        self.geometry("1111x950")
 
         ### Load the background image
         self.background_image_original = Image.open("./Assets_Cat/loginAdoption.jpg")
@@ -60,11 +60,11 @@ class Login(ct.CTk):
         self.password.pack(pady=10)
 
         # Label for forget password
-        self.forget_password_label = ct.CTkLabel(self, text="Forget password?", font=('Century Gothic', 12))
-        self.forget_password_label.place(x=250, y=180)
+        #self.forget_password_label = ct.CTkLabel(self, text="Forget password?", font=('Century Gothic', 12))
+        #self.forget_password_label.place(x=250, y=180)
         
-        self.button1 = ct.CTkButton(self.frame1, text="login", command=self.login_check, image=ct.CTkImage(dark_image=img, light_image=img))
-        self.button1.pack(pady=40, padx=120)
+        self.button1 = ct.CTkButton(self.frame1, text="login", command=self.login_check)
+        self.button1.pack(pady=20, padx=120)
             
     # Function to resize the background image (cat image)
     def _resize_image(self, event):
