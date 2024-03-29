@@ -123,7 +123,7 @@ Passwords must be complex for all accounts (10 characters min - use of special c
 <details>
 <summary><b>Customer Signup Misuse Cases</b></summary>
 
-<img src="./Assets_Cat/Diagrams/Customer Signup Misuse Cases.png" width="650" height="500">
+<img src="./Assets_Cat/Diagrams/Customer Signup Misuse Cases.png" width="700" height="500">
 
 <img src="./Assets_Cat/Diagrams/S1.png" width="570" height="500">
 
