@@ -72,9 +72,10 @@ CREATE TABLE customer (
 <details>
 <summary><b>Use Case Diagrams</b></summary>
 
-![login_page](./Assets_Cat/Diagrams/Customer%20Use%20Cases.png)
+<img src="./Assets_Cat/Diagrams/Customer%20Use%20Cases.png" width="100" height="100")
 
-![login_page](./Assets_Cat/Diagrams/Doctor%20Use%20Cases.png)
+<img src="./Assets_Cat/Diagrams/Doctor%20Use%20Cases.png" width="100" height="100")
 
-![login_page](./Assets_Cat/Diagrams/Admin%20Use%20Cases.png)
+<img src="./Assets_Cat/Diagrams/Admin%20Use%20Cases.png" width="100" height="100")
+
 </details>
