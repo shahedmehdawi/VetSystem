@@ -1,7 +1,8 @@
 import customtkinter as ct
 import tkinter as ttk
 from tkinter import messagebox
-import PIL
+import PIL 
+from PIL import ImageTk, Image
 import mysql.connector as msql
 import bcrypt
 from Crypto.Util.number import long_to_bytes
@@ -10,18 +11,40 @@ username=''
 ct.set_appearance_mode("dark")  
 ct.set_default_color_theme("green")
 
-img = PIL.Image.open("./Assets/png-login.png") # change to match repo of image
+img = PIL.Image.open("./Assets_Cat/loginAdoption.jpg") # change to match repo of image
+
+
 
 class Login(ct.CTk):
     def __init__(self):
         super().__init__()
         global username
         self.title("Login")
-        self.geometry("600x450")
+        self.geometry("1280x1100")
+
+        ### Load the background image
+        self.background_image_original = Image.open("./Assets_Cat/loginAdoption.jpg")
+
+        ### Create a PhotoImage object from the original background image
+        self.background_image = ImageTk.PhotoImage(self.background_image_original)
+
+        ### Create a copy of the background image for resizing
+        self.background_image_copy = self.background_image_original.copy()
+        
+        ### Create and configure the background label
+        self.background_label = ct.CTkLabel(master=self, image=self.background_image)
+        self.background_label.pack(fill="both", expand=True)
+        self.background_label.bind('<Configure>', self._resize_image)
+        
+
+
+
+
         
         self.frame1 = ct.CTkFrame(self, height=500, width=400)
-        self.frame1.pack(pady=20)
-        
+        self.frame1.pack(pady=5)
+
+
         self.label1 = ct.CTkLabel(self.frame1, text="Login Page",
                         font=("Helvetica", 20))
         self.label1.pack(pady=20, padx=10)
@@ -35,10 +58,29 @@ class Login(ct.CTk):
         
         self.password = ct.CTkEntry(self.frame1, placeholder_text="enter password", show="*")
         self.password.pack(pady=10)
+
+        # Label for forget password
+        self.forget_password_label = ct.CTkLabel(self, text="Forget password?", font=('Century Gothic', 12))
+        self.forget_password_label.place(x=250, y=180)
         
         self.button1 = ct.CTkButton(self.frame1, text="login", command=self.login_check, image=ct.CTkImage(dark_image=img, light_image=img))
-        self.button1.pack(pady=20, padx=120)
+        self.button1.pack(pady=40, padx=120)
             
+    # Function to resize the background image (cat image)
+    def _resize_image(self, event):
+        new_width = event.width
+        new_height = event.height
+
+        # Resize the background image copy
+        resized_image = self.background_image_copy.resize((new_width, new_height))
+
+        # Convert the resized image to PhotoImage format
+        resized_photo_image = ImageTk.PhotoImage(resized_image)
+
+        # Configure the background label to display the resized image
+        self.background_label.configure(image=resized_photo_image)
+
+
     def login_check(self):
         username = self.username.get()
         password = self.password.get()
