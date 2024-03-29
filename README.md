@@ -72,7 +72,7 @@ CREATE TABLE customer (
 <details>
 <summary><b>Use Case Diagrams</b></summary>
 
-<img src="./Assets_Cat/Diagrams/Customer%20Use%20Cases.png" width="100" height="100")
+<img src="https://github.com/shahedmehdawi/Desktop-application/blob/master/Assets_Cat/Diagrams/Customer%20Use%20Cases.png" width="100" height="100")
 
 <img src="./Assets_Cat/Diagrams/Doctor%20Use%20Cases.png" width="100" height="100")
 
