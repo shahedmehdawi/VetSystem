@@ -108,7 +108,7 @@ Passwords must be complex for all accounts (10 characters min - use of special c
 <details>
 <summary><b>Login Misuse Cases</b></summary>
 
-<img src="./Assets_Cat/Diagrams/Login Misuse Cases.png" width="630" height="500">
+<img src="./Assets_Cat/Diagrams/Login Misuse Cases.png" width="720" height="600">
 
 <img src="./Assets_Cat/Diagrams/L1.png" width="580" height="500">
 
