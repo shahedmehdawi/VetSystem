@@ -72,11 +72,11 @@ CREATE TABLE customer (
 <details>
 <summary><b>Use Case Diagrams</b></summary>
 
-<img src="./Assets_Cat/Diagrams/Customer Use Cases.png" width="700" height="500">
+<img src="./Assets_Cat/Diagrams/Customer Use Cases.png" width="500" height="500">
 
-<img src="./Assets_Cat/Diagrams/Doctor%20Use%20Cases.png" width="570" height="500">
+<img src="./Assets_Cat/Diagrams/Doctor%20Use%20Cases.png" width="500" height="500">
 
-<img src="./Assets_Cat/Diagrams/Admin%20Use%20Cases.png" width="570" height="500">
+<img src="./Assets_Cat/Diagrams/Admin%20Use%20Cases.png" width="500" height="500">
 
 </details>
 
@@ -86,21 +86,21 @@ CREATE TABLE customer (
 
 <img src="./Assets_Cat/Diagrams/Login Misuse Cases.png" width="630" height="500">
 
-<img src="./Assets_Cat/Diagrams/L1.png" width="500" height="570">
+<img src="./Assets_Cat/Diagrams/L1.png" width="580" height="500">
 
-<img src="./Assets_Cat/Diagrams/L2.png" width="500" height="570">
+<img src="./Assets_Cat/Diagrams/L2.png" width="580" height="500">
 
-<img src="./Assets_Cat/Diagrams/L3.png" width="500" height="570">
+<img src="./Assets_Cat/Diagrams/L3.png" width="580" height="500">
 
-<img src="./Assets_Cat/Diagrams/L4.png" width="500" height="500">
+<img src="./Assets_Cat/Diagrams/L4.png" width="580" height="500">
 
 </details>
 
 <details>
 <summary><b>Customer Signup Misuse Cases</b></summary>
 
-<img src="./Assets_Cat/Diagrams/Customer Signup Misuse Cases.png" width="500" height="500">
+<img src="./Assets_Cat/Diagrams/Customer Signup Misuse Cases.png" width="650" height="500">
 
-<img src="./Assets_Cat/Diagrams/S1.png" width="500" height="500">
+<img src="./Assets_Cat/Diagrams/S1.png" width="570" height="500">
 
 </details>
