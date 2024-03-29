@@ -128,3 +128,23 @@ Passwords must be complex for all accounts (10 characters min - use of special c
 <img src="./Assets_Cat/Diagrams/S1.png" width="570" height="500">
 
 </details>
+
+<details>
+<summary><b>Edit Available Pets for Adoption Misuse Cases</b></summary>
+
+<img src="./Assets_Cat/Diagrams/Edit Available pets Misuse cases.png" width="780" height="550">
+
+<img src="./Assets_Cat/Diagrams/E1.png" width="570" height="500">
+<img src="./Assets_Cat/Diagrams/E2.png" width="570" height="500">
+
+</details>
+
+<details>
+<summary><b>Adopter details Misuse Cases</b></summary>
+
+<img src="./Assets_Cat/Diagrams/Adopter's details Misuse cases.png" width="780" height="550">
+
+<img src="./Assets_Cat/Diagrams/A1.png" width="570" height="500">
+<img src="./Assets_Cat/Diagrams/A2.png" width="570" height="500">
+
+</details>
