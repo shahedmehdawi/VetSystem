@@ -71,5 +71,5 @@ CREATE TABLE customer (
 ### Use Cases
 <details>
 <summary><b>Use Case Diagrams</b></summary>
-idk just some text
+![login_page](https://github.com/shahedmehdawi/Desktop-application/blob/master/Assets_Cat/Diagrams/Admin%20Use%20Cases.png)
 </details>
