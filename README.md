@@ -100,7 +100,7 @@ Passwords must be complex for all accounts (10 characters min - use of special c
 
 <img src="./Assets_Cat/Diagrams/Doctor%20Use%20Cases.png" width="500" height="500">
 
-<img src="./Assets_Cat/Diagrams/Admin%20Use%20Cases.png" width="500" height="500">
+<img src="./Assets_Cat/Diagrams/Admin%20Use%20cases2.png" width="500" height="500">
 
 </details>
 
