@@ -156,7 +156,7 @@ Passwords must be complex for all accounts (10 characters min - use of special c
 
 <img src="./Assets_Cat/Diagrams/editprofile usecase (2).png" width="850" height="550">
 
-<img src="./Assets_Cat/Diagrams/D1.png" width="870" height="770">
+<img src="./Assets_Cat/Diagrams/D1.png" width="970" height="770">
 
 
 </details>
