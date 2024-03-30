@@ -154,9 +154,9 @@ Passwords must be complex for all accounts (10 characters min - use of special c
 <details>
 <summary><b>editprofile Misuse Case</b></summary>
 
-<img src="./Assets_Cat/Diagrams/editprofile usecase (2).png" width="780" height="550">
+<img src="./Assets_Cat/Diagrams/editprofile usecase (2).png" width="850" height="550">
 
-<img src="./Assets_Cat/Diagrams/D1.png" width="570" height="500">
+<img src="./Assets_Cat/Diagrams/D1.png" width="670" height="600">
 
 
 </details>
