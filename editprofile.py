@@ -81,6 +81,6 @@ class EditProfile(ct.CTk):
         except mysql.Error as err:
             messagebox.showerror("Database Error", f"Error updating profile: {err}")
 
-
-edit_profile_window = EditProfile("example_username")  # Replace "example_username" with actual username
-edit_profile_window.mainloop()
+if __name__=="__main__":
+    edit_profile_window = EditProfile("example_username")  # Replace "example_username" with actual username
+    edit_profile_window.mainloop()
