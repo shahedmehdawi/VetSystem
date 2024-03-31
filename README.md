@@ -176,5 +176,5 @@ Passwords must be complex for all accounts (10 characters min - use of special c
 <details>
 <summary><b>Admin Registration Misuse Case</b></summary>
 <img src="./Assets_Cat/Diagrams/admin_registration.png" width="700" height="300">
-<img src="./Assets_Cat/Diagrams/R1.png" width="850" height="550">
+<img src="./Assets_Cat/Diagrams/R1.png" width="1040" height="770">
 </details>
