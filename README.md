@@ -8,19 +8,22 @@ This is a software security project aimed at building a software for managing pe
 **1. Python Customtkinter library**
 ```pip install customtkinter```
 
-**2. mysql connector**
+**2. Python tkinter library**
+```pip install tkinter```
+
+**3. mysql connector**
 ```pip install mysql-connector-python```
 
-**3. Pillow**
+**4. Pillow**
 ```pip install pillow```
 
-**4. bcrypt**
+**5. bcrypt**
 ```pip install bcrypt```
 
-**5. PyCrypto**
+**6. PyCrypto**
 ```pip install pycrypto```
 
-**6. pycryptodome**
+**7. pycryptodome**
 ```pip install pycryptodome```
 
 ![login_page](https://github.com/shahedmehdawi/Desktop-application/assets/140253527/56814f13-e45e-46bc-a848-c57a2892186f)
