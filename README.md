@@ -161,5 +161,14 @@ Passwords must be complex for all accounts (10 characters min - use of special c
 
 <img src="./Assets_Cat/Diagrams/D1.png" width="1040" height="770">
 
+</details>
+
+<details>
+<summary><b>session Hijacking Misuse Case</b></summary>
+
+<img src="./Assets_Cat/Diagrams/L5.jpg" width="850" height="550">
+
+<img src="./Assets_Cat/Diagrams/session_higacking.png" width="1040" height="770">
+
 
 </details>
