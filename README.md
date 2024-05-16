@@ -60,14 +60,14 @@ CREATE TABLE pets (
 </details>
 
 <details>
-<summary><b>Customers Table</b></summary>
+<summary><b>customer_info Table</b></summary>
 <pre>
-CREATE TABLE customer (
+CREATE TABLE customer_info (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
+    number VARCHAR(255) NOT NULL,
     location VARCHAR(255) NOT NULL,
-    adopted_pet VARCHAR(255) NOT NULL
+    pet_info VARCHAR(255) NOT NULL
 );
 </pre>
 </details>
