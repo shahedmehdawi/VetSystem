@@ -42,7 +42,7 @@ class Signup(ct.CTk):
         self.signup_button = ct.CTkButton(self, text="Sign Up", command=self.signup_user)
         self.signup_button.pack(pady=20)
 
-        self.image = Image.open("Assets/cat_bg.png")
+        self.image = Image.open("Assets_Cat/cat.jpg")
         self.bg_image = ct.CTkImage(light_image=self.image, dark_image=self.image,size=(400,500))
         self.bg_label = ct.CTkLabel(master=self,image=self.bg_image)
         self.bg_label.pack(fill="both")
