@@ -12,16 +12,18 @@ font1=("Helvteica",14)
 class Home(ctk.CTk):
     def __init__(self):
         super().__init__()
-        self.geometry("600x450")
+        self.geometry("680x780")
         self.title("Homepage")
 
-        self.frame=ctk.CTkFrame(self,height=100,width=100)
-        self.frame.pack(pady=10,fill="both")
+        title_label = ctk.CTkLabel(self, text="Welcome this is your Home Page :) ", font=("Arial", 30))
+        title_label.pack(pady=30,padx=10)
 
-        self.label1=ctk.CTkLabel(self.frame,text="Homepage",font=("Helvetice",18),text_color="green")
-        self.label1.pack(pady=10,padx=10)
+        self.frame=ctk.CTkFrame(self,height=500,width=300)
+        self.frame.pack(pady=40,fill="both")
 
-        self.my_image=ctk.CTkImage(dark_image=Image.open("Assets_Cat/c.jpg"),size=(200,150))
+        
+
+        self.my_image=ctk.CTkImage(dark_image=Image.open("Assets_Cat/homepage.png"),size=(600,400))
 
         self.my_label=ctk.CTkLabel(self.frame,text='',image=self.my_image)
         self.my_label.pack(pady=20)
@@ -40,7 +42,7 @@ class Home(ctk.CTk):
 
     def move_to_edit(self):
         self.destroy()
-        edit_page = editprofile.ProfileEdit()
+        edit_page = editprofile.EditProfile()
         edit_page.mainloop()
 
 home=Home()
