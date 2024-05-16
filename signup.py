@@ -77,9 +77,17 @@ class Signup(ct.CTk):
             cursor.execute(sql, val)
             mydb.commit()
             messagebox.showinfo("Success", "User registered successfully!")
+            self.redirect_to_home(username)
 
         except mysql.Error as err:
             messagebox.showerror("Signup Error", f"Error registering user: {err}")
+
+    def redirect_to_home(self,username):
+        # Destroy current window and create Home instance
+        self.destroy()
+        from homepage import Home
+        home_page = Home(username=username) 
+        home_page.mainloop()
 
 
 signup_window = Signup()
