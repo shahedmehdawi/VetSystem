@@ -13,7 +13,7 @@ DATABASE = "new_schema" # change database
 class Signup(ct.CTk):
     def __init__(self):
         super().__init__()
-        self.geometry("400x500")
+        self.geometry("700x720")
         self.title("Vet Management System - Signup")
 
         self.signup_frame = ct.CTkFrame(master=self, width=400, height=300)
@@ -42,8 +42,8 @@ class Signup(ct.CTk):
         self.signup_button = ct.CTkButton(self, text="Sign Up", command=self.signup_user)
         self.signup_button.pack(pady=20)
 
-        self.image = Image.open("Assets_Cat\cat.jpg")
-        self.bg_image = ct.CTkImage(light_image=self.image, dark_image=self.image,size=(400,500))
+        self.image = Image.open("Assets_Cat\Adoption.png")
+        self.bg_image = ct.CTkImage(light_image=self.image, dark_image=self.image,size=(800,380))
         self.bg_label = ct.CTkLabel(master=self,image=self.bg_image)
         self.bg_label.pack(fill="both")
         
