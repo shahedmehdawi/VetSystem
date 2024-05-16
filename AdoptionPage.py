@@ -20,16 +20,28 @@ class PetAdoption(ct.CTk):
             self.cursor.close()
             self.db.close()
 
-        def insert_customer(self, name, email, location, pet_name):
-            query = "INSERT INTO customer (name, email, location, adopted_pet) VALUES (%s, %s, %s, %s)"
-            values = (name, email, location, pet_name)
-            self.cursor.execute(query, values)
-            self.db.commit()    
+        def insert_customer(self, username, number, location, pet_name):
+            # Retrieve customer's ID and name based on the username
+            query = "SELECT UID, name FROM users WHERE username = %s"
+            self.cursor.execute(query, (username,))
+            user_info = self.cursor.fetchone()
+            if user_info:
+                user_id, name = user_info
+            # Insert customer information into the customer_info table
+                query = "INSERT INTO customer_info (id, name, number, location, pet_info) VALUES (%s, %s, %s, %s, %s)"
+                values = (user_id, name, number, location, pet_name)
+                self.cursor.execute(query, values)
+                self.db.commit()
+            else:
+                # Handle case where user is not found
+                messagebox.showerror("Error", "User not found")
+ 
 
-    def __init__(self):
+    def __init__(self, username=None):
         super().__init__()
         self.title("Pet Adoption Page")
         self.geometry("1400x665")
+        self.username = username
         self.db_manager = self.DatabaseManager()
         self.setup_gui()
 
@@ -84,7 +96,7 @@ class PetAdoption(ct.CTk):
             location = location_entry.get()
             pet_name = pet_data[0]  # Get the pet name
 
-            self.db_manager.insert_customer(number, location, pet_name)
+            self.db_manager.insert_customer(self.username,number, location, pet_name)
             
             messagebox.showinfo("Adoption Success", f"You adopted {pet_name} successfully! 🐱 Now please wait for delivery.")
             new_window.destroy()  # Close the window after submission

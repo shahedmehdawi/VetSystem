@@ -42,10 +42,7 @@ class EditProfile(ct.CTk):
 
     def load_user_info(self):
         try:
-            mydb = mysql.connect(host="localhost", 
-                                user='root',# change username to match your database user
-                                password='Bella*8234', # change pass
-                                database='new_schema')# change database to match your database name
+            mydb = mysql.connect(HOST, USER,PASSWORD,DATABASE)# change database to match your database name
             cursor = mydb.cursor()
             command = "SELECT name, email FROM users WHERE username = %s"
             cursor.execute(command, (self.username,))
@@ -66,10 +63,7 @@ class EditProfile(ct.CTk):
         new_password = self.password_entry.get()
 
         try:
-            mydb = mysql.connect(host="localhost", 
-                                user='root',# change username to match your database user
-                                password='Bella*8234', # change pass
-                                database='new_schema')# change database to match your database name
+            mydb = mysql.connect(HOST, USER,PASSWORD,DATABASE)# change database to match your database name
             cursor = mydb.cursor()
 
             if new_password:

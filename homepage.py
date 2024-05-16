@@ -41,7 +41,7 @@ class Home(ctk.CTk):
 
     def move_to_adoption(self):
        self.destroy()
-       adoption=AdoptionPage.PetAdoption() 
+       adoption=AdoptionPage.PetAdoption(username=self.username) 
        adoption.mainloop()
 
     def move_to_edit(self):
