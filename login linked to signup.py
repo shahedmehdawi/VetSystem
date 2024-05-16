@@ -86,7 +86,7 @@ class Login(ct.CTk):
         # Destroy current window and create Home instance
         self.destroy()
         from homepage import Home
-        home_page = Home(username=username)
+        home_page = Home(username=username) 
         home_page.mainloop()
 
     def go_to_signup(self): ## Function to transition to the sign-up page

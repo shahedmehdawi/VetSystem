@@ -42,7 +42,10 @@ class EditProfile(ct.CTk):
 
     def load_user_info(self):
         try:
-            mydb = mysql.connect(host=HOST, user=USER, password=PASSWORD, database=DATABASE)
+            mydb = mysql.connect(host="localhost", 
+                                user='root',# change username to match your database user
+                                password='Bella*8234', # change pass
+                                database='new_schema')# change database to match your database name
             cursor = mydb.cursor()
             command = "SELECT name, email FROM users WHERE username = %s"
             cursor.execute(command, (self.username,))
@@ -63,13 +66,16 @@ class EditProfile(ct.CTk):
         new_password = self.password_entry.get()
 
         try:
-            mydb = mysql.connect(host=HOST, user=USER, password=PASSWORD, database=DATABASE)
+            mydb = mysql.connect(host="localhost", 
+                                user='root',# change username to match your database user
+                                password='Bella*8234', # change pass
+                                database='new_schema')# change database to match your database name
             cursor = mydb.cursor()
 
             if new_password:
                 salt = bcrypt.gensalt(rounds=14)
                 hashed_password = bcrypt.hashpw(new_password.encode('utf-8'), salt)
-                command = "UPDATE users SET name = %s, email = %s, password_hash = %s, salt = %s WHERE username = shahedmehdawi"
+                command = "UPDATE users SET name = %s, email = %s, password_hash = %s, salt = %s WHERE username = %s "
                 cursor.execute(command, (name, email, hashed_password, salt, self.username))
             else:
                 command = "UPDATE users SET name = %s, email = %s WHERE username = %s"
@@ -80,7 +86,3 @@ class EditProfile(ct.CTk):
             self.destroy()
         except mysql.Error as err:
             messagebox.showerror("Database Error", f"Error updating profile: {err}")
-
-if __name__=="__main__":
-    edit_profile_window = EditProfile("example_username")  # Replace "example_username" with actual username
-    edit_profile_window.mainloop()

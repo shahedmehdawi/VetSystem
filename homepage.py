@@ -46,7 +46,7 @@ class Home(ctk.CTk):
 
     def move_to_edit(self):
         self.destroy()
-        edit_page = editprofile.EditProfile()
+        edit_page = editprofile.EditProfile(username=self.username)
         edit_page.mainloop()
 
 ##home=Home()
