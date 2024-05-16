@@ -1,7 +1,7 @@
 import tkinter as tk
 import customtkinter as ctk
 import AdoptionPage
-import edit
+import editprofile
 from PIL import Image
 
 ctk.set_appearance_mode("System")
@@ -21,7 +21,7 @@ class Home(ctk.CTk):
         self.label1=ctk.CTkLabel(self.frame,text="Homepage",font=("Helvetice",18),text_color="green")
         self.label1.pack(pady=10,padx=10)
 
-        self.my_image=ctk.CTkImage(dark_image=Image.open("/change path to run succsessful/cat_bg.png"),size=(200,150))
+        self.my_image=ctk.CTkImage(dark_image=Image.open("Assets_Cat/c.jpg"),size=(200,150))
 
         self.my_label=ctk.CTkLabel(self.frame,text='',image=self.my_image)
         self.my_label.pack(pady=20)
@@ -40,7 +40,7 @@ class Home(ctk.CTk):
 
     def move_to_edit(self):
         self.destroy()
-        edit_page = edit.ProfileEdit()
+        edit_page = editprofile.ProfileEdit()
         edit_page.mainloop()
 
 home=Home()
