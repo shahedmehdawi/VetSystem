@@ -9,13 +9,17 @@ ctk.set_default_color_theme("green")
 
 font1=("Helvteica",14)
 
+
 class Home(ctk.CTk):
-    def __init__(self):
+    def __init__(self,username=None):  # Pass username as a parameter
         super().__init__()
         self.geometry("680x780")
         self.title("Homepage")
+        self.username = username  # Store the username
 
-        title_label = ctk.CTkLabel(self, text="Welcome this is your Home Page :) ", font=("Arial", 30))
+
+
+        title_label = ctk.CTkLabel(self, text=f"Welcome, {self.username} !", font=("Arial", 30))
         title_label.pack(pady=30,padx=10)
 
         self.frame=ctk.CTkFrame(self,height=500,width=300)
@@ -45,6 +49,6 @@ class Home(ctk.CTk):
         edit_page = editprofile.EditProfile()
         edit_page.mainloop()
 
-home=Home()
-home.mainloop()
+##home=Home()
+##home.mainloop()
 

@@ -7,7 +7,6 @@ import bcrypt
 from Crypto.Util.number import long_to_bytes
 
 
-
 ct.set_appearance_mode("dark")  
 ct.set_default_color_theme("green")
 
@@ -20,7 +19,6 @@ class Login(ct.CTk):
         super().__init__()
         self.title("Login")
         self.geometry("600x500")
-
         self.frame1 = ct.CTkFrame(self, height=500, width=400)
         self.frame1.pack(pady=20)
 
@@ -79,10 +77,17 @@ class Login(ct.CTk):
                     if hashed_password == stored_pass_hash:               
                         messagebox.showerror("Success","Login Successful")
                         self.label2.configure(text="Login Successful")
+                        # Redirect to home page
+                        self.redirect_to_home(username)
             except:
                 messagebox.showerror("Failed","Couldn't connect to database")
 
-
+    def redirect_to_home(self,username):
+        # Destroy current window and create Home instance
+        self.destroy()
+        from homepage import Home
+        home_page = Home(username=username)
+        home_page.mainloop()
 
     def go_to_signup(self): ## Function to transition to the sign-up page
         self.destroy()

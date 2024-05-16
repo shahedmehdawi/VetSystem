@@ -8,11 +8,11 @@ app = CTk()
 app.geometry("800x600")
 app.resizable(0, 0)
 
-side_img_data = Image.open("cybersecurity.jpg")
-email_icon_data = Image.open("email-icon.png")
-password_icon_data = Image.open("password-icon.png")
-google_icon_data = Image.open("google-icon.png")
-doctor_icon_data = Image.open("doctor.png")
+side_img_data = Image.open("Assets_Cat/cybersecurity.jpg")
+email_icon_data = Image.open("Assets_Cat/email-icon.png")
+password_icon_data = Image.open("Assets_Cat/password-icon.png")
+google_icon_data = Image.open("Assets_Cat/c.jpg") #google-icon.png
+doctor_icon_data = Image.open("Assets_Cat/doctor.png")
 
 
 side_img = CTkImage(dark_image=side_img_data, light_image=side_img_data, size=(400, 600))
