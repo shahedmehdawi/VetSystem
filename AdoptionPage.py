@@ -46,7 +46,7 @@ class PetAdoption(ct.CTk):
         self.setup_gui()
 
     def customer_details(self, pet_data):
-        self.destroy()
+        self.withdraw() ##hides the window from view without destroying it
 
     
         new_window = ct.CTk()  
@@ -59,6 +59,16 @@ class PetAdoption(ct.CTk):
         
         title_label = ct.CTkLabel(new_window, text="🐾 Adoption Details 🐾", font=("Arial", 24, "bold"))
         title_label.pack(pady=20)
+
+        # Function to handle back button click event
+        def go_back():
+            new_window.destroy()
+            self.deiconify() ##The window remains alive in memory and can be made visible again using deiconify()
+
+        # Add a back button to the top left corner
+        back_button = ct.CTkButton(new_window, text=" <--- back to Adoptin page", font=("Arial", 13, "bold"), command=go_back)
+        back_button.place(x=10, y=10)
+
         sub_title = ct.CTkLabel(new_window, text="pet you picked: ", font=("Arial", 18, "bold"), text_color="lightpink")
         sub_title.pack(pady=30)
         
@@ -111,6 +121,7 @@ class PetAdoption(ct.CTk):
         title_label = ct.CTkLabel(self, text="Pets for Adoption <3", font=("Arial", 50))
         title_label.pack(pady=80)
 
+
         # /////// Fetch pet information including image path from the database
         cursor = self.db_manager.cursor
         cursor.execute("SELECT name, species, age, image_path FROM pets")
@@ -138,6 +149,15 @@ class PetAdoption(ct.CTk):
 
             # ////// Bind a function to each image label to submit customer details when clicked
             image_label.bind("<Button-1>", lambda event, pet_data=pet_data: self.customer_details(pet_data))
+
+        back_button = ct.CTkButton(self, text="<--- Back to Home", font=("Arial", 13, "bold"), command=self.go_back)
+        back_button.place(x=10, y=10)
+
+    def go_back(self):
+        self.destroy()  # Close the adoption page
+        from homepage import Home
+        home_page = Home(username=self.username)  # Open the home page
+        home_page.mainloop()
 
     def run(self):
         self.mainloop()

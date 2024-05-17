@@ -12,12 +12,12 @@ DATABASE = "new_schema"  # change database
 class EditProfile(ct.CTk):
     def __init__(self, username):
         super().__init__()
-        self.geometry("400x500")
+        self.geometry("600x500")
         self.title("Vet Management System - Edit Profile")
 
         self.username = username
 
-        self.edit_profile_frame = ct.CTkFrame(master=self, width=400, height=300)
+        self.edit_profile_frame = ct.CTkFrame(master=self, width=550, height=400)
         self.edit_profile_frame.pack(pady=20)
 
         self.name_label = ct.CTkLabel(master=self.edit_profile_frame, text="Name:", font=("Roboto", 12))
@@ -39,6 +39,15 @@ class EditProfile(ct.CTk):
         self.save_button.pack(pady=20)
 
         self.load_user_info()
+
+        back_button = ct.CTkButton(self, text="<--- Back to Home", font=("Arial", 13, "bold"), command=self.go_back)
+        back_button.place(x=10, y=10)
+
+    def go_back(self):
+        self.destroy()  # Close the adoption page
+        from homepage import Home
+        home_page = Home(username=self.username)  # Open the home page
+        home_page.mainloop()
 
     def load_user_info(self):
         try:
