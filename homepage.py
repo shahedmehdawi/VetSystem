@@ -33,7 +33,7 @@ class Home(ctk.CTk):
         self.my_label.pack(pady=20)
 
 
-        self.button1=ctk.CTkButton(self.frame,text="Pet Adaption",font=font1,command=self.move_to_adoption)
+        self.button1=ctk.CTkButton(self.frame,text="Pet Adoption",font=font1,command=self.move_to_adoption)
         self.button1.pack(pady=10,padx=10)
 
         self.button2=ctk.CTkButton(self.frame,text="Edit profile",font=font1,command=self.move_to_edit)

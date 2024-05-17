@@ -7,8 +7,8 @@ import re
 
 HOST = "localhost"
 USER = "root"  # change username
-PASSWORD = "QueueThatW@69"  # change password
-DATABASE = "registration"  # change database
+PASSWORD = "Bella*8234"  # change password
+DATABASE = "new_schema"  # change database
 
 class Signup(ct.CTk):
     def __init__(self):
@@ -57,7 +57,7 @@ class Signup(ct.CTk):
                                  password=PASSWORD,
                                  database=DATABASE)
             cursor = mydb.cursor()
-            command = "use registration"
+            command = "use new_schema"
             cursor.execute(command)
         except mysql.Error as err:
             messagebox.showerror("Database Error", f"Error connecting to database: {err}")

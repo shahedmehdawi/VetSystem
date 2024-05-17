@@ -22,7 +22,6 @@ google_icon = CTkImage(dark_image=google_icon_data, light_image=google_icon_data
 doctor_icon = CTkImage(dark_image=doctor_icon_data, light_image=doctor_icon_data, size=(20, 20))
 
 CTkLabel(master=app, text="", image=side_img).pack(expand=True, side="left")
-
 frame = CTkFrame(master=app, width=400, height=600, fg_color="#ffffff")
 frame.pack_propagate(0)
 frame.pack(expand=True, side="right")

@@ -54,11 +54,11 @@ class Login(ct.CTk):
                 #database credentials and information ... i named it registration .. you can name it whatever you want
                 mydb=msql.connect(host="localhost", 
                                 user='root',# change username to match your database user
-                                password='QueueThatW@69', # change pass
-                                database='registration')# change database to match your database name
+                                password='Bella*8234', # change pass
+                                database='new_schema')# change database to match your database name
                 mycursor=mydb.cursor()
                 #messagebox.showerror("","Connected to database")
-                command = "use registration"
+                command = "use new_schema"
                 mycursor.execute(command)
                 # we will execute a command to get username, password_hash and salt from table (users) ... you can call the table whatever you want too
                 command="select username, password_hash , salt, role from users where username=%s" # change table name to match your target table name
@@ -79,6 +79,9 @@ class Login(ct.CTk):
                         self.label2.configure(text="Login Successful")
                         # Redirect to home page
                         self.redirect_to_home(username)
+                    else:
+                        messagebox.showerror("Login Failed","invalid username or password")
+
             except:
                 messagebox.showerror("Failed","Couldn't connect to database")
 
