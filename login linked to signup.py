@@ -79,6 +79,10 @@ class Login(ct.CTk):
                         self.label2.configure(text="Login Successful")
                         # Redirect to home page
                         self.redirect_to_home(username)
+
+                    else:
+                        messagebox.showerror("Failed","Login Faild ! Invalid username or password")
+
             except:
                 messagebox.showerror("Failed","Couldn't connect to database")
 
