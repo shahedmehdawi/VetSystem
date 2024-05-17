@@ -1,8 +1,16 @@
-import customtkinter as ct
-from tkinter import messagebox
-from PIL import Image
+import re
 import mysql.connector as mysql
 import bcrypt
+import customtkinter as ct
+from tkinter import messagebox
+
+def main():
+    input_text = input("Enter a string: ")
+    pattern = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$%*?&])[A-Za-z\d@$%*?&]{10,}$'
+    if re.match(pattern, input_text):
+        print("This is a valid expression")
+    else:
+        print("Input does not meet the criteria.")
 
 HOST = "localhost"
 USER = "root"  # change username
@@ -51,10 +59,7 @@ class EditProfile(ct.CTk):
 
     def load_user_info(self):
         try:
-            mydb = mysql.connect(host="localhost", 
-                                user='root',# change username to match your database user
-                                password='Bella*8234', # change pass
-                                database='new_schema')# change database to match your database name
+            mydb = mysql.connect(host=HOST, user=USER, password=PASSWORD, database=DATABASE)
             cursor = mydb.cursor()
             command = "SELECT name, email FROM users WHERE username = %s"
             cursor.execute(command, (self.username,))
@@ -75,17 +80,18 @@ class EditProfile(ct.CTk):
         new_password = self.password_entry.get()
 
         try:
-            mydb = mysql.connect(host="localhost", 
-                                user='root',# change username to match your database user
-                                password='Bella*8234', # change pass
-                                database='new_schema')# change database to match your database name
+            mydb = mysql.connect(host=HOST, user=USER, password=PASSWORD, database=DATABASE)
             cursor = mydb.cursor()
 
             if new_password:
-                salt = bcrypt.gensalt(rounds=14)
-                hashed_password = bcrypt.hashpw(new_password.encode('utf-8'), salt)
-                command = "UPDATE users SET name = %s, email = %s, password_hash = %s, salt = %s WHERE username = %s "
-                cursor.execute(command, (name, email, hashed_password, salt, self.username))
+                if re.match(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$%*?&])[A-Za-z\d@$%*?&]{10,}$', new_password):
+                    salt = bcrypt.gensalt(rounds=14)
+                    hashed_password = bcrypt.hashpw(new_password.encode('utf-8'), salt)
+                    command = "UPDATE users SET name = %s, email = %s, password_hash = %s, salt = %s WHERE username = %s "
+                    cursor.execute(command, (name, email, hashed_password, salt, self.username))
+                else:
+                    messagebox.showerror("Password Error", "Password must be at least 10 characters long and contain at least one lowercase letter, one uppercase letter, one digit, and one of the following symbols: @, $, %, *, ?, &")
+                    return
             else:
                 command = "UPDATE users SET name = %s, email = %s WHERE username = %s"
                 cursor.execute(command, (name, email, self.username))
