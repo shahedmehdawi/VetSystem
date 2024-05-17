@@ -92,6 +92,6 @@ class EditProfile(ct.CTk):
 
             mydb.commit()
             messagebox.showinfo("Success", "Profile updated successfully!")
-            self.destroy()
+            ##self.destroy()
         except mysql.Error as err:
             messagebox.showerror("Database Error", f"Error updating profile: {err}")

@@ -85,17 +85,19 @@ class PetAdoption(ct.CTk):
                 location = location_entry.get()
                 pet_name = pet_data[0]  # Get the pet name
                 pet_id = pet_data[4]
-                try:
-                    self.db_manager.insert_customer(self.username,number, location, pet_name)
-                    pet_adopted()
+                
+                if self.validate_phone_number(number):
+                    # If phone number is valid, proceed with insertion
+                    self.db_manager.insert_customer(self.username, number, location, pet_name)
                     messagebox.showinfo("Adoption Success", f"You adopted {pet_name} successfully! 🐱 Now please wait for delivery.")
-
-                except:
-                    pet_adopted()
-                    messagebox.showinfo("Adoption Success", f"You adopted {pet_name} successfully! 🐱 Now please wait for delivery.")
-                go_back() # Close the window after submission    
+                    #new_window.destroy()  # Close the window after submission
+                    ##go_back()
+                else:
+                    # If phone number is invalid, display error message
+                    messagebox.showerror("error", "Invalid phone number ! please make sure that you provide us with a valid phone number")
+    
             
-            self.destroy()
+            ###self.destroy()
 
         
             new_window = ct.CTk()  
