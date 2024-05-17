@@ -46,14 +46,16 @@ class PetAdoption(ct.CTk):
         self.db_manager = self.DatabaseManager()
         self.setup_gui()
 
+   
 
     def validate_phone_number(self, phone_number):
-    # Regular expression pattern for phone number validation
-        pattern = r'^07[789]\d{7}$'
-        if re.match(pattern, phone_number):
-            return True  # Valid phone number
-        else:
-            return False  # Invalid phone number    
+            # Regular expression pattern for phone number validation
+            pattern = r'^07[789]\d{7}$'
+            if re.match(pattern, phone_number):
+                return True  # Valid phone number
+            else:
+                return False  # Invalid phone number
+
 
     def customer_details(self, pet_data):
         self.withdraw() ##hides the window from view without destroying it
@@ -117,6 +119,7 @@ class PetAdoption(ct.CTk):
             number = number_entry.get()
             location = location_entry.get()
             pet_name = pet_data[0]  # Get the pet name
+
 
             if self.validate_phone_number(number):
                 # If phone number is valid, proceed with insertion
