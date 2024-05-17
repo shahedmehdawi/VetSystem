@@ -3,6 +3,7 @@ from tkinter import messagebox
 from PIL import Image
 import mysql.connector as mysql
 import bcrypt
+import re
 
 
 HOST = "localhost"
@@ -62,11 +63,25 @@ class Signup(ct.CTk):
         except mysql.Error as err:
             messagebox.showerror("Database Error", f"Error connecting to database: {err}")
 
+    def validate_password(self, password):
+        # Define the regex pattern for password validation
+        pattern = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$'
+        
+        # Check if the password matches the pattern
+        if re.match(pattern, password):
+            return True
+        else:
+            return False
+
     def signup_user(self):
         username = self.signup_username_entry.get()
         password = self.signup_password_entry.get()
         name = self.signup_name_entry.get()
         email = self.signup_email_entry.get()
+
+        if not self.validate_password(password):
+            messagebox.showerror("Password Error", "Password must be at least 10 characters long and contain at least one lowercase letter, one uppercase letter, one digit, and one symbol (@, $, !, %, *, ?, &).")
+            return
 
         salt = bcrypt.gensalt(rounds=14)
         hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
