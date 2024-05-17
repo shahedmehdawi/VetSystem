@@ -5,19 +5,19 @@ import mysql.connector as mysql
 import bcrypt
 
 HOST = "localhost"
-USER = "root"  # change username
-PASSWORD = "QueueThatW@69"  # change password
-DATABASE = "registration"  # change database
+USER = "root" # change username
+PASSWORD = "QueueThatW@69" # change password
+DATABASE = "registration" # change database
 
 class EditProfile(ct.CTk):
     def __init__(self, username):
         super().__init__()
-        self.geometry("400x500")
+        self.geometry("600x500")
         self.title("Vet Management System - Edit Profile")
 
         self.username = username
 
-        self.edit_profile_frame = ct.CTkFrame(master=self, width=400, height=300)
+        self.edit_profile_frame = ct.CTkFrame(master=self, width=550, height=400)
         self.edit_profile_frame.pack(pady=20)
 
         self.name_label = ct.CTkLabel(master=self.edit_profile_frame, text="Name:", font=("Roboto", 12))
@@ -40,14 +40,22 @@ class EditProfile(ct.CTk):
 
         self.load_user_info()
 
+        back_button = ct.CTkButton(self, text="<--- Back to Home", font=("Arial", 13, "bold"), command=self.go_back)
+        back_button.place(x=10, y=10)
+
+    def go_back(self):
+        self.destroy()  # Close the adoption page
+        from homepage import Home
+        home_page = Home(username=self.username)  # Open the home page
+        home_page.mainloop()
+
     def load_user_info(self):
         try:
-            mydb=mysql.connect(host=HOST, 
-                                user=USER,# change username to match your database user
-                                password=PASSWORD, # change pass
-                                database=DATABASE)# change database to match your database name
+            mydb = mysql.connect(host="localhost", 
+                                user='root',# change username to match your database user
+                                password='QueueThatW@69', # change pass
+                                database='registration')# change database to match your database name
             cursor = mydb.cursor()
-            
             command = "SELECT name, email FROM users WHERE username = %s"
             cursor.execute(command, (self.username,))
             user_info = cursor.fetchone()
@@ -67,10 +75,10 @@ class EditProfile(ct.CTk):
         new_password = self.password_entry.get()
 
         try:
-            mydb=mysql.connect(host=HOST, 
-                                user=USER,# change username to match your database user
-                                password=PASSWORD, # change pass
-                                database=DATABASE)# change database to match your database name
+            mydb = mysql.connect(host="localhost", 
+                                user='root',# change username to match your database user
+                                password='Bella*8234', # change pass
+                                database='registration')# change database to match your database name
             cursor = mydb.cursor()
 
             if new_password:

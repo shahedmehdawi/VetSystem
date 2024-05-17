@@ -3,7 +3,7 @@ import tkinter
 import customtkinter as ct
 from PIL import ImageTk, Image
 from tkinter import messagebox
-
+import re
 
 class PetAdoption(ct.CTk):
     class DatabaseManager:
@@ -35,7 +35,7 @@ class PetAdoption(ct.CTk):
             else:
                 # Handle case where user is not found
                 messagebox.showerror("Error", "User not found")
- 
+
 
     def __init__(self, username=None):
         super().__init__()
@@ -45,10 +45,27 @@ class PetAdoption(ct.CTk):
         self.db_manager = self.DatabaseManager()
         self.setup_gui()
 
+    def validate_phone_number(self, phone_number):
+    # Regular expression pattern for phone number validation
+        pattern = r'^07[789]\d{7}$'
+        if re.match(pattern, phone_number):
+            return True  # Valid phone number
+        else:
+            return False  # Invalid phone number 
+    
     def customer_details(self, pet_data):
         if pet_data[5] == 1:
             messagebox.showinfo(title="hmmm", message="Pet is adopted, choose another one")
         else:
+            
+            # Function to handle back button click event
+            def go_back():
+                new_window.destroy()
+                #self.deiconify() ##The window remains alive in memory and can be made visible again using deiconify()
+                from homepage import Home
+                home_page = Home(username=self.username)  # Open the home page
+                home_page.mainloop()
+            
             def pet_adopted():
                 cursor = self.db_manager.cursor
                 cursor.execute("SELECT UID FROM users WHERE username = %s", (self.username,))
@@ -72,11 +89,11 @@ class PetAdoption(ct.CTk):
                     self.db_manager.insert_customer(self.username,number, location, pet_name)
                     pet_adopted()
                     messagebox.showinfo("Adoption Success", f"You adopted {pet_name} successfully! 🐱 Now please wait for delivery.")
-                    new_window.destroy()  # Close the window after submission
+
                 except:
                     pet_adopted()
                     messagebox.showinfo("Adoption Success", f"You adopted {pet_name} successfully! 🐱 Now please wait for delivery.")
-                    new_window.destroy()  # Close the window after submission     
+                go_back() # Close the window after submission    
             
             self.destroy()
 
@@ -91,6 +108,11 @@ class PetAdoption(ct.CTk):
             
             title_label = ct.CTkLabel(new_window, text="🐾 Adoption Details 🐾", font=("Arial", 24, "bold"))
             title_label.pack(pady=20)
+
+            # Add a back button to the top left corner
+            back_button = ct.CTkButton(new_window, text=" <--- back to Adoptin page", font=("Arial", 13, "bold"), command=go_back)
+            back_button.place(x=10, y=10)
+            
             sub_title = ct.CTkLabel(new_window, text="pet you picked: ", font=("Arial", 18, "bold"), text_color="lightpink")
             sub_title.pack(pady=30)
             
@@ -151,7 +173,7 @@ class PetAdoption(ct.CTk):
             age_label = ct.CTkLabel(pet_frame, text=f"Age: {pet_data[2]}", font=("Arial", 12))
             age_label.pack()
 
-            adopted_label = ct.CTkLabel(pet_frame, text=f"pet is adopted" if pet_data[5]==1 else "pet is available for adoption", font=("Arial", 12))
+            adopted_label = ct.CTkLabel(pet_frame, text=f"pet is adopted" if pet_data[5]==1 else "pet is available for adoption", font=("Arial", 12), text_color="red" if pet_data[5]==1 else "white")
             adopted_label.pack()
             
             # id_label = ct.CTkLabel(pet_frame, text=f"ID = {pet_data[4]}", font=("Arial", 12))
@@ -166,6 +188,16 @@ class PetAdoption(ct.CTk):
 
             # ////// Bind a function to each image label to submit customer details when clicked
             image_label.bind("<Button-1>", lambda event, pet_data=pet_data: self.customer_details(pet_data))
+
+            back_button = ct.CTkButton(self, text="<--- Back to Home", font=("Arial", 13, "bold"), command=self.go_back)
+            back_button.place(x=10, y=10)
+    
+    def go_back(self):
+        self.destroy()  # Close the adoption page
+        from homepage import Home
+        home_page = Home(username=self.username)  # Open the home page
+        home_page.mainloop()
+    
     def run(self):
         self.mainloop()
 
