@@ -6,8 +6,8 @@ import bcrypt
 
 HOST = "localhost"
 USER = "root"  # change username
-PASSWORD = "Bella*8234"  # change password
-DATABASE = "new_schema"  # change database
+PASSWORD = "QueueThatW@69"  # change password
+DATABASE = "registration"  # change database
 
 class EditProfile(ct.CTk):
     def __init__(self, username):
@@ -42,8 +42,12 @@ class EditProfile(ct.CTk):
 
     def load_user_info(self):
         try:
-            mydb = mysql.connect(HOST, USER,PASSWORD,DATABASE)# change database to match your database name
+            mydb=mysql.connect(host=HOST, 
+                                user=USER,# change username to match your database user
+                                password=PASSWORD, # change pass
+                                database=DATABASE)# change database to match your database name
             cursor = mydb.cursor()
+            
             command = "SELECT name, email FROM users WHERE username = %s"
             cursor.execute(command, (self.username,))
             user_info = cursor.fetchone()
@@ -63,7 +67,10 @@ class EditProfile(ct.CTk):
         new_password = self.password_entry.get()
 
         try:
-            mydb = mysql.connect(HOST, USER,PASSWORD,DATABASE)# change database to match your database name
+            mydb=mysql.connect(host=HOST, 
+                                user=USER,# change username to match your database user
+                                password=PASSWORD, # change pass
+                                database=DATABASE)# change database to match your database name
             cursor = mydb.cursor()
 
             if new_password:

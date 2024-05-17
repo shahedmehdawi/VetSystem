@@ -49,12 +49,12 @@ CREATE TABLE users (
 <details>
 <summary><b>Available Pets Table</b></summary>
 <pre>
-CREATE TABLE pets (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        name VARCHAR(255) NOT NULL,
-        species VARCHAR(255) NOT NULL,
-        age VARCHAR(50) NOT NULL,
-        image_path VARCHAR(255) NOT NULL
+CREATE TABLE `pets` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(255) NOT NULL,
+    `species` VARCHAR(255) NOT NULL,
+    `age` VARCHAR(50) NOT NULL,
+    `image_path` VARCHAR(255) NOT NULL
 );
 </pre>
 </details>
@@ -62,12 +62,14 @@ CREATE TABLE pets (
 <details>
 <summary><b>customer_info Table</b></summary>
 <pre>
-CREATE TABLE customer_info (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    number VARCHAR(255) NOT NULL,
-    location VARCHAR(255) NOT NULL,
-    pet_info VARCHAR(255) NOT NULL
+CREATE TABLE `customer_info` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(255) NOT NULL,
+    `number` VARCHAR(255) NOT NULL,
+    `location` VARCHAR(255) NOT NULL,
+    `pet_info` VARCHAR(255) NOT NULL,
+    `pet_id` INT UNIQUE,  -- This column links to the pet
+    FOREIGN KEY (`pet_id`) REFERENCES `pets`(`id`)
 );
 </pre>
 </details>

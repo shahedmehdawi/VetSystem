@@ -11,8 +11,8 @@ class PetAdoption(ct.CTk):
             self.db = mysql.connector.connect(
                 host="localhost",
                 user="root",
-                password="Bella*8234",
-                database="new_schema"
+                password="QueueThatW@69",
+                database="registration"
             )
             self.cursor = self.db.cursor()
 
@@ -46,64 +46,84 @@ class PetAdoption(ct.CTk):
         self.setup_gui()
 
     def customer_details(self, pet_data):
-        self.destroy()
+        if pet_data[5] == 1:
+            messagebox.showinfo(title="hmmm", message="Pet is adopted, choose another one")
+        else:
+            def pet_adopted():
+                cursor = self.db_manager.cursor
+                cursor.execute("SELECT UID FROM users WHERE username = %s", (self.username,))
+                result = cursor.fetchone()
 
-    
-        new_window = ct.CTk()  
-        new_window.geometry("800x700")
-        new_window.title('Adoption Details')
+                if result:
+                    customer_uid = result[0]
 
-        
-        new_window.configure() 
-
-        
-        title_label = ct.CTkLabel(new_window, text="🐾 Adoption Details 🐾", font=("Arial", 24, "bold"))
-        title_label.pack(pady=20)
-        sub_title = ct.CTkLabel(new_window, text="pet you picked: ", font=("Arial", 18, "bold"), text_color="lightpink")
-        sub_title.pack(pady=30)
-        
-        pet_name_label = ct.CTkLabel(new_window, text=f"Name: {pet_data[0]}", font=("Arial", 12))
-        pet_name_label.pack()
-        species_label = ct.CTkLabel(new_window, text=f"Species: {pet_data[1]}", font=("Arial", 12))
-        species_label.pack()
-        age_label = ct.CTkLabel(new_window, text=f"Age: {pet_data[2]}", font=("Arial", 12))
-        age_label.pack()
-        sub_title2 = ct.CTkLabel(new_window, text="to confirm your order ฅ^•ﻌ•^ฅ: ", font=("Arial", 18, "bold"), text_color="lightpink")
-        sub_title2.pack(pady=50)
-       
-       
-        
-        number_label = ct.CTkLabel(new_window, text="Enter your Number:", font=("Arial", 12))
-        number_label.pack()
-        number_entry = ct.CTkEntry(new_window, font=("Arial", 12), width=300,corner_radius=50,fg_color=("lightpink"), text_color="black")
-        number_entry.pack()
-
-        
-        location_label = ct.CTkLabel(new_window, text="Enter your Location:", font=("Arial", 12))
-        location_label.pack()
-        location_entry = ct.CTkEntry(new_window, font=("Arial", 12), width=300,corner_radius=50,fg_color=("lightpink"), text_color="black")
-        location_entry.pack()
-
-
-        submit_button = ct.CTkButton(new_window, text="Submit", font=("Arial", 12))
-        submit_button.pack(pady=20)
-        
-
-        ##new_window.mainloop()
-
-        def submit():
-            number = number_entry.get()
-            location = location_entry.get()
-            pet_name = pet_data[0]  # Get the pet name
-
-            self.db_manager.insert_customer(self.username,number, location, pet_name)
+                    pet_id = int(pet_data[4])  # Ensure pet_id is an integer
+                    cursor.execute("UPDATE `pets` SET `adopted` = 1, `customer_id` = %s WHERE `id` = %s;", (customer_uid, pet_id))
+                    self.db_manager.db.commit()  # Commit the changes
+                else:
+                    messagebox.showerror("Error", "User not found")
             
-            messagebox.showinfo("Adoption Success", f"You adopted {pet_name} successfully! 🐱 Now please wait for delivery.")
-            new_window.destroy()  # Close the window after submission
+            def submit():
+                number = number_entry.get()
+                location = location_entry.get()
+                pet_name = pet_data[0]  # Get the pet name
+                pet_id = pet_data[4]
+                try:
+                    self.db_manager.insert_customer(self.username,number, location, pet_name)
+                    pet_adopted()
+                    messagebox.showinfo("Adoption Success", f"You adopted {pet_name} successfully! 🐱 Now please wait for delivery.")
+                    new_window.destroy()  # Close the window after submission
+                except:
+                    pet_adopted()
+                    messagebox.showinfo("Adoption Success", f"You adopted {pet_name} successfully! 🐱 Now please wait for delivery.")
+                    new_window.destroy()  # Close the window after submission     
+            
+            self.destroy()
 
-        submit_button.configure(command=submit)
+        
+            new_window = ct.CTk()  
+            new_window.geometry("800x700")
+            new_window.title('Adoption Details')
 
-        new_window.mainloop()
+            
+            new_window.configure() 
+
+            
+            title_label = ct.CTkLabel(new_window, text="🐾 Adoption Details 🐾", font=("Arial", 24, "bold"))
+            title_label.pack(pady=20)
+            sub_title = ct.CTkLabel(new_window, text="pet you picked: ", font=("Arial", 18, "bold"), text_color="lightpink")
+            sub_title.pack(pady=30)
+            
+            pet_name_label = ct.CTkLabel(new_window, text=f"Name: {pet_data[0]}", font=("Arial", 12))
+            pet_name_label.pack()
+            species_label = ct.CTkLabel(new_window, text=f"Species: {pet_data[1]}", font=("Arial", 12))
+            species_label.pack()
+            age_label = ct.CTkLabel(new_window, text=f"Age: {pet_data[2]}", font=("Arial", 12))
+            age_label.pack()
+            sub_title2 = ct.CTkLabel(new_window, text="to confirm your order ฅ^•ﻌ•^ฅ: ", font=("Arial", 18, "bold"), text_color="lightpink")
+            sub_title2.pack(pady=50)
+            
+            number_label = ct.CTkLabel(new_window, text="Enter your Number:", font=("Arial", 12))
+            number_label.pack()
+            number_entry = ct.CTkEntry(new_window, font=("Arial", 12), width=300,corner_radius=50,fg_color=("lightpink"), text_color="black")
+            number_entry.pack()
+
+            
+            location_label = ct.CTkLabel(new_window, text="Enter your Location:", font=("Arial", 12))
+            location_label.pack()
+            location_entry = ct.CTkEntry(new_window, font=("Arial", 12), width=300,corner_radius=50,fg_color=("lightpink"), text_color="black")
+            location_entry.pack()
+
+
+            submit_button = ct.CTkButton(new_window, text="Submit", font=("Arial", 12))
+            submit_button.pack(pady=20)
+            
+            submit_button.configure(command=submit)
+
+            new_window.mainloop()
+            
+
+            ##new_window.mainloop()
 
 
 
@@ -111,13 +131,15 @@ class PetAdoption(ct.CTk):
         title_label = ct.CTkLabel(self, text="Pets for Adoption <3", font=("Arial", 50))
         title_label.pack(pady=80)
 
+        scrollable_frame = ct.CTkScrollableFrame(self, orientation="horizontal", width=1300, height=800)
+        scrollable_frame.pack(pady=10)
         # /////// Fetch pet information including image path from the database
         cursor = self.db_manager.cursor
-        cursor.execute("SELECT name, species, age, image_path FROM pets")
+        cursor.execute("SELECT name, species, age, image_path, id, adopted FROM pets")
         pets_data = cursor.fetchall()
 
         for pet_data in pets_data:
-            pet_frame = ct.CTkFrame(self)
+            pet_frame = ct.CTkFrame(scrollable_frame)
             pet_frame.pack(side="left", padx=10)
 
             pet_label = ct.CTkLabel(pet_frame, text=pet_data[0], font=("Arial", 14))
@@ -129,6 +151,12 @@ class PetAdoption(ct.CTk):
             age_label = ct.CTkLabel(pet_frame, text=f"Age: {pet_data[2]}", font=("Arial", 12))
             age_label.pack()
 
+            adopted_label = ct.CTkLabel(pet_frame, text=f"pet is adopted" if pet_data[5]==1 else "pet is available for adoption", font=("Arial", 12))
+            adopted_label.pack()
+            
+            # id_label = ct.CTkLabel(pet_frame, text=f"ID = {pet_data[4]}", font=("Arial", 12))
+            # id_label.pack()
+            
             image = Image.open(pet_data[3])
             image = image.resize((260, 260))  
             photo = ImageTk.PhotoImage(image)
@@ -138,7 +166,6 @@ class PetAdoption(ct.CTk):
 
             # ////// Bind a function to each image label to submit customer details when clicked
             image_label.bind("<Button-1>", lambda event, pet_data=pet_data: self.customer_details(pet_data))
-
     def run(self):
         self.mainloop()
 
