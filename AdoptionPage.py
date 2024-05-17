@@ -3,6 +3,7 @@ import tkinter
 import customtkinter as ct
 from PIL import ImageTk, Image
 from tkinter import messagebox
+import re
 
 
 class PetAdoption(ct.CTk):
@@ -44,6 +45,15 @@ class PetAdoption(ct.CTk):
         self.username = username
         self.db_manager = self.DatabaseManager()
         self.setup_gui()
+
+
+    def validate_phone_number(self, phone_number):
+    # Regular expression pattern for phone number validation
+        pattern = r'^07[789]\d{7}$'
+        if re.match(pattern, phone_number):
+            return True  # Valid phone number
+        else:
+            return False  # Invalid phone number    
 
     def customer_details(self, pet_data):
         self.withdraw() ##hides the window from view without destroying it
@@ -101,15 +111,21 @@ class PetAdoption(ct.CTk):
 
         ##new_window.mainloop()
 
+    
+
         def submit():
             number = number_entry.get()
             location = location_entry.get()
             pet_name = pet_data[0]  # Get the pet name
 
-            self.db_manager.insert_customer(self.username,number, location, pet_name)
-            
-            messagebox.showinfo("Adoption Success", f"You adopted {pet_name} successfully! 🐱 Now please wait for delivery.")
-            new_window.destroy()  # Close the window after submission
+            if self.validate_phone_number(number):
+                # If phone number is valid, proceed with insertion
+                self.db_manager.insert_customer(self.username, number, location, pet_name)
+                messagebox.showinfo("Adoption Success", f"You adopted {pet_name} successfully! 🐱 Now please wait for delivery.")
+                new_window.destroy()  # Close the window after submission
+            else:
+                # If phone number is invalid, display error message
+                messagebox.showerror("error", "Invalid phone number ! please make sure that you provide us with a valid phone number")
 
         submit_button.configure(command=submit)
 
