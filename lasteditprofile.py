@@ -12,6 +12,10 @@ def main():
     else:
         print("Input does not meet the criteria.")
 
+def validate_email(self, email):
+        email_pattern = re.compile(r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$")
+        return email_pattern.match(email) is not None
+
 HOST = "localhost"
 USER = "root"  # change username
 PASSWORD = "1234"  # change password
@@ -102,9 +106,6 @@ class EditProfile(ct.CTk):
         except mysql.Error as err:
             messagebox.showerror("Database Error", f"Error updating profile: {err}")
 
-    def validate_email(self, email):
-        email_pattern = re.compile(r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$")
-        return email_pattern.match(email) is not None
 
 if __name__ == "__main__":
     main()
