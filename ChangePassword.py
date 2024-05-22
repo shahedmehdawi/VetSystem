@@ -4,6 +4,9 @@ from PIL import Image
 import mysql.connector as mysql
 import bcrypt
 
+import sys
+sys.dont_write_bytecode = True
+
 HOST = "localhost"
 USER = "root" # change username
 PASSWORD = "QueueThatW@69" # change password

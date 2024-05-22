@@ -4,6 +4,9 @@ import AdoptionPage
 import editprofile
 from PIL import Image
 
+import sys
+sys.dont_write_bytecode = True
+
 ctk.set_appearance_mode("System")
 ctk.set_default_color_theme("green")
 
@@ -11,12 +14,12 @@ font1=("Helvteica",14)
 
 
 class Home(ctk.CTk):
-    def __init__(self,username=None):  # Pass username as a parameter
+    def __init__(self,username=None, role="normal_user"):  # Pass username as a parameter
         super().__init__()
         self.geometry("680x780")
         self.title("Homepage")
         self.username = username  # Store the username
-
+        self.role = role
 
 
         title_label = ctk.CTkLabel(self, text=f"Welcome, {self.username} !", font=("Arial", 30))
@@ -41,12 +44,12 @@ class Home(ctk.CTk):
 
     def move_to_adoption(self):
        self.destroy()
-       adoption=AdoptionPage.PetAdoption(username=self.username) 
+       adoption=AdoptionPage.PetAdoption(username=self.username, role = self.role) 
        adoption.mainloop()
 
     def move_to_edit(self):
         self.destroy()
-        edit_page = editprofile.EditProfile(username=self.username)
+        edit_page = editprofile.EditProfile(username=self.username, role=self.role)
         edit_page.mainloop()
 
 ##home=Home()

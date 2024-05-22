@@ -5,14 +5,17 @@ from PIL import ImageTk, Image
 from tkinter import messagebox
 import re
 
+import sys
+sys.dont_write_bytecode = True
+
 class PetAdoption(ct.CTk):
     class DatabaseManager:
         def __init__(self):
             self.db = mysql.connector.connect(
                 host="localhost",
                 user="root",
-                password="Bella*8234",
-                database="new_schema"
+                password="QueueThatW@69",
+                database="registration"
             )
             self.cursor = self.db.cursor()
 
@@ -37,11 +40,12 @@ class PetAdoption(ct.CTk):
                 messagebox.showerror("Error", "User not found")
 
 
-    def __init__(self, username=None):
+    def __init__(self, username=None, role="admin"):
         super().__init__()
         self.title("Pet Adoption Page")
         self.geometry("1400x665")
         self.username = username
+        self.role = role
         self.db_manager = self.DatabaseManager()
         self.setup_gui()
 
@@ -63,7 +67,14 @@ class PetAdoption(ct.CTk):
                 new_window.destroy()
                 #self.deiconify() ##The window remains alive in memory and can be made visible again using deiconify()
                 from homepage import Home
-                home_page = Home(username=self.username)  # Open the home page
+                home_page = Home(username=self.username, role=self.role)  # Open the home page
+                home_page.mainloop()
+            
+            def go_back_admin():
+                new_window.destroy()
+                #self.deiconify() ##The window remains alive in memory and can be made visible again using deiconify()
+                from AdminHomepage import AdminHome
+                home_page = AdminHome(username=self.username, role=self.role) 
                 home_page.mainloop()
             
             def pet_adopted():
@@ -87,22 +98,26 @@ class PetAdoption(ct.CTk):
                 pet_id = pet_data[4]
 
                 try:
-                
                     if self.validate_phone_number(number):
                         # If phone number is valid, proceed with insertion
                         self.db_manager.insert_customer(self.username, number, location, pet_name)
                         pet_adopted()
                         messagebox.showinfo("Adoption Success", f"You adopted {pet_name} successfully! 🐱 Now please wait for delivery.")
                         #new_window.destroy()  # Close the window after submission
-                        go_back()
+                        if self.role != "admin":
+                            go_back()
+                        else:
+                            go_back_admin()
                     else:
                         # If phone number is invalid, display error message
                         messagebox.showerror("error", "Invalid phone number ! please make sure that you provide us with a valid phone number")
                 except:
                     pet_adopted()
                     messagebox.showinfo("Adoption Success", f"You adopted {pet_name} successfully! 🐱 Now please wait for delivery.")
-                    go_back()
-            
+                    if self.role != "admin":
+                            go_back()
+                    else:
+                        go_back_admin()
             self.destroy()
 
         
@@ -118,7 +133,7 @@ class PetAdoption(ct.CTk):
             title_label.pack(pady=20)
 
             # Add a back button to the top left corner
-            back_button = ct.CTkButton(new_window, text=" <--- back to Adoptin page", font=("Arial", 13, "bold"), command=go_back)
+            back_button = ct.CTkButton(new_window, text=" <--- back to Adoption page" if self.role != "admin" else " <--- back to Admin Adoption page", font=("Arial", 13, "bold"), command=go_back if self.role != "admin" else go_back_admin)
             back_button.place(x=10, y=10)
             
             sub_title = ct.CTkLabel(new_window, text="pet you picked: ", font=("Arial", 18, "bold"), text_color="lightpink")
@@ -197,13 +212,20 @@ class PetAdoption(ct.CTk):
             # ////// Bind a function to each image label to submit customer details when clicked
             image_label.bind("<Button-1>", lambda event, pet_data=pet_data: self.customer_details(pet_data))
 
-            back_button = ct.CTkButton(self, text="<--- Back to Home", font=("Arial", 13, "bold"), command=self.go_back)
+            back_button = ct.CTkButton(self, text="<--- Back to Home" if self.role != "admin" else "Back to AdminHome", font=("Arial", 13, "bold"), command=self.go_back if self.role != "admin" else self.redirect_to_Adminhome)
             back_button.place(x=10, y=10)
     
     def go_back(self):
         self.destroy()  # Close the adoption page
         from homepage import Home
-        home_page = Home(username=self.username)  # Open the home page
+        home_page = Home(username=self.username, role=self.role)  # Open the home page
+        home_page.mainloop()
+    
+    def redirect_to_Adminhome(self):
+        # Destroy current window and create Home instance
+        self.destroy()
+        from AdminHomepage import AdminHome
+        home_page = AdminHome(username=self.username, role=self.role) 
         home_page.mainloop()
     
     def run(self):

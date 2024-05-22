@@ -5,10 +5,15 @@ import mysql.connector as mysql
 import bcrypt
 import re
 
+import sys
+sys.dont_write_bytecode = True
+
+
+
 HOST = "localhost"
 USER = "root"  # change username
-PASSWORD = "Bella*8234"  # change password
-DATABASE = "new_schema"  # change database
+PASSWORD = "QueueThatW@69"  # change password
+DATABASE = "registration"  # change database
 
 class Signup(ct.CTk):
     def __init__(self):
@@ -57,7 +62,7 @@ class Signup(ct.CTk):
                                  password=PASSWORD,
                                  database=DATABASE)
             cursor = mydb.cursor()
-            command = "use new_schema"
+            command = "use registration"
             cursor.execute(command)
         except mysql.Error as err:
             messagebox.showerror("Database Error", f"Error connecting to database: {err}")

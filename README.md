@@ -42,7 +42,7 @@ CREATE TABLE users (
     email VARCHAR(255) NOT NULL UNIQUE,
     salt BINARY(32) NOT NULL,
     role ENUM('normal_user', 'doctor', 'admin') NOT NULL DEFAULT 'normal_user',
-    is_new BOOLEAN NOT NULL DEFAULT TRUE
+    is_new BOOLEAN NOT NULL DEFAULT 0
 );
 </pre>
 </details>

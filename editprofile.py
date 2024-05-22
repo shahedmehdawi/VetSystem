@@ -4,6 +4,9 @@ import bcrypt
 import customtkinter as ct
 from tkinter import messagebox
 
+import sys
+sys.dont_write_bytecode = True
+
 def main():
     input_text = input("Enter a string: ")
     pattern = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$%*?&])[A-Za-z\d@$%*?&]{10,}$'
@@ -14,17 +17,17 @@ def main():
 
 HOST = "localhost"
 USER = "root"  # change username
-PASSWORD = "Bella*8234"  # change password
-DATABASE = "new_schema"  # change database
+PASSWORD = "QueueThatW@69"  # change password
+DATABASE = "registration"  # change database
 
 class EditProfile(ct.CTk):
-    def __init__(self, username):
+    def __init__(self, username, role):
         super().__init__()
         self.geometry("600x500")
         self.title("Vet Management System - Edit Profile")
 
         self.username = username
-
+        self.role = role
         self.edit_profile_frame = ct.CTkFrame(master=self, width=550, height=400)
         self.edit_profile_frame.pack(pady=20)
 
@@ -48,13 +51,38 @@ class EditProfile(ct.CTk):
 
         self.load_user_info()
 
-        back_button = ct.CTkButton(self, text="<--- Back to Home", font=("Arial", 13, "bold"), command=self.go_back)
+        back_button = ct.CTkButton(self, text="<--- Back to Home" if self.role != "admin" else "<--- Back to AdminHome" , font=("Arial", 13, "bold") , command=self.go_back if self.role != "admin" else self.redirect_to_Adminhome)
         back_button.place(x=10, y=10)
 
+    
+    def validate_password(self, password):
+        if len(password) < 12:
+            return False
+        if not re.search(r"[A-Z]", password):
+            return False
+        if not re.search(r"[a-z]", password):
+            return False
+        if not re.search(r"\d", password):
+            return False
+        if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password):
+            return False
+        return True
+
+    def validate_email(self, email):
+        email_pattern = re.compile(r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$")
+        return email_pattern.match(email) is not None
+    
     def go_back(self):
         self.destroy()  # Close the adoption page
         from homepage import Home
         home_page = Home(username=self.username)  # Open the home page
+        home_page.mainloop()
+    
+    def redirect_to_Adminhome(self):
+        # Destroy current window and create Home instance
+        self.destroy()
+        from AdminHomepage import AdminHome
+        home_page = AdminHome(username=self.username, role=self.role) 
         home_page.mainloop()
 
     def load_user_info(self):
@@ -83,21 +111,22 @@ class EditProfile(ct.CTk):
             mydb = mysql.connect(host=HOST, user=USER, password=PASSWORD, database=DATABASE)
             cursor = mydb.cursor()
 
-            if new_password:
-                if re.match(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$%*?&])[A-Za-z\d@$%*?&]{10,}$', new_password):
-                    salt = bcrypt.gensalt(rounds=14)
-                    hashed_password = bcrypt.hashpw(new_password.encode('utf-8'), salt)
-                    command = "UPDATE users SET name = %s, email = %s, password_hash = %s, salt = %s WHERE username = %s "
-                    cursor.execute(command, (name, email, hashed_password, salt, self.username))
-                else:
-                    messagebox.showerror("Password Error", "Password must be at least 10 characters long and contain at least one lowercase letter, one uppercase letter, one digit, and one of the following symbols: @, $, %, *, ?, &")
-                    return
+            if not name:
+                messagebox.showerror("Invalid Name", "Please Enter a valid Name")
+                return
+            elif not self.validate_password(new_password):
+                messagebox.showerror("Invalid Password", "Password must be 12+ characters long and include uppercase, lowercase, numbers, and symbols.")
+                return
+            elif not self.validate_email(email):
+                messagebox.showerror("Invalid Email", "Please enter a valid email address.")
+                return
             else:
-                command = "UPDATE users SET name = %s, email = %s WHERE username = %s"
-                cursor.execute(command, (name, email, self.username))
-
-            mydb.commit()
-            messagebox.showinfo("Success", "Profile updated successfully!")
+                salt = bcrypt.gensalt(rounds=14)
+                hashed_password = bcrypt.hashpw(new_password.encode('utf-8'), salt)
+                command = "UPDATE users SET name = %s, email = %s, password_hash = %s, salt = %s WHERE username = %s "
+                cursor.execute(command, (name, email, hashed_password, salt, self.username))
+                mydb.commit()
+                messagebox.showinfo("Success", "Profile updated successfully!")
             ##self.destroy()
         except mysql.Error as err:
             messagebox.showerror("Database Error", f"Error updating profile: {err}")
