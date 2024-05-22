@@ -42,7 +42,7 @@ CREATE TABLE users (
     email VARCHAR(255) NOT NULL UNIQUE,
     salt BINARY(32) NOT NULL,
     role ENUM('normal_user', 'doctor', 'admin') NOT NULL DEFAULT 'normal_user',
-    is_new BOOLEAN NOT NULL DEFAULT 0
+    is_new BOOLEAN NOT NULL DEFAULT FALSE
 );
 </pre>
 </details>
@@ -50,15 +50,15 @@ CREATE TABLE users (
 <details>
 <summary><b>Available Pets Table</b></summary>
 <pre>
-CREATE TABLE ⁠ pets ⁠ (
-    ⁠ id ⁠ INT AUTO_INCREMENT PRIMARY KEY,
-    ⁠ name ⁠ VARCHAR(255) NOT NULL,
-    ⁠ species ⁠ VARCHAR(255) NOT NULL,
-    ⁠ age ⁠ VARCHAR(50) NOT NULL,
-    ⁠ image_path ⁠ VARCHAR(255) NOT NULL,
-    ⁠ adopted ⁠ TINYINT(1) NOT NULL DEFAULT 0, -- 0 for False, 1 for True
-    ⁠ customer_id ⁠ INT DEFAULT NULL, -- Foreign key to link to customer_info
-    FOREIGN KEY (⁠ customer_id ⁠) REFERENCES ⁠ customer_info ⁠(⁠ id ⁠)
+CREATE TABLE pets (
+    ⁠ id INT AUTO_INCREMENT PRIMARY KEY,
+    ⁠ name VARCHAR(255) NOT NULL,
+    ⁠ species VARCHAR(255) NOT NULL,
+    ⁠ age VARCHAR(50) NOT NULL,
+    ⁠ image_path VARCHAR(255) NOT NULL,
+    ⁠ adopted TINYINT(1) NOT NULL DEFAULT 0, -- 0 for False, 1 for True
+    ⁠ customer_id INT DEFAULT NULL, -- Foreign key to link to customer_info
+    FOREIGN KEY (⁠ customer_id ⁠) REFERENCES customer_info (⁠ id ⁠)
 );
 </pre>
 </details>
