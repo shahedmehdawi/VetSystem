@@ -60,15 +60,11 @@ class App(CTk):
         self.resizable(0, 0)
 
         side_img_data = Image.open("cybersecurity.jpg")
-        email_icon_data = Image.open("email-icon.png")
         password_icon_data = Image.open("password-icon.png")
-        google_icon_data = Image.open("google-icon.png")
         doctor_icon_data = Image.open("doctor.png")
 
         side_img = CTkImage(dark_image=side_img_data, light_image=side_img_data, size=(400, 600)) 
-        email_icon = CTkImage(dark_image=email_icon_data, light_image=email_icon_data, size=(25, 25))
         password_icon = CTkImage(dark_image=password_icon_data, light_image=password_icon_data, size=(20, 20))
-        google_icon = CTkImage(dark_image=google_icon_data, light_image=google_icon_data, size=(20, 20))
         doctor_icon = CTkImage(dark_image=doctor_icon_data, light_image=doctor_icon_data, size=(20, 20))
 
         CTkLabel(master=self, text="", image=side_img).pack(expand=True, side="left")
