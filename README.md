@@ -39,9 +39,10 @@ CREATE TABLE users (
     username VARCHAR(255) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
     name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL UNIQUE,  #Add email for user contact
-    salt BINARY(32) NOT NULL,  #Move salt before role
-    role ENUM('normal_user', 'doctor', 'admin') NOT NULL DEFAULT 'normal_user'
+    email VARCHAR(255) NOT NULL UNIQUE,
+    salt BINARY(32) NOT NULL,
+    role ENUM('normal_user', 'doctor', 'admin') NOT NULL DEFAULT 'normal_user',
+    is_new BOOLEAN NOT NULL DEFAULT TRUE
 );
 </pre>
 </details>
