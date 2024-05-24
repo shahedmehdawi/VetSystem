@@ -19,7 +19,6 @@ class changePass(ct.CTk):
         self.title("Vet Management System - Change Password")
 
         ##self.username = username
-
         # Frame for change pass
         self.changePass_frame = ct.CTkFrame(master=self, width=380, height=280, corner_radius=15)
         self.changePass_frame.pack(pady=20, padx=10, fill="both", expand=True)
@@ -70,6 +69,5 @@ class changePass(ct.CTk):
             self.destroy()
         except mysql.Error as err:
             messagebox.showerror("Database Error", f"Error updating password: {err}")
-
 
 changePass('shahed').mainloop()

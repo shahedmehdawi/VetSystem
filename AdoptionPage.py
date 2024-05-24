@@ -4,6 +4,8 @@ import customtkinter as ct
 from PIL import ImageTk, Image
 from tkinter import messagebox
 import re
+import login_linked_to_signup
+from session_time_out import Session
 
 import sys
 sys.dont_write_bytecode = True
@@ -49,6 +51,15 @@ class PetAdoption(ct.CTk):
         self.db_manager = self.DatabaseManager()
         self.setup_gui()
 
+        self.session_timeout=Session()        
+        self.after(0,self.check_session_timeout)
+
+    def check_session_timeout(self):
+        if self.session_timeout.has_timed_out():
+            return True
+        else:
+            self.after(1000, self.check_session_timeout)
+
     def validate_phone_number(self, phone_number):
     # Regular expression pattern for phone number validation
         pattern = r'^07[789]\d{7}$'
@@ -64,19 +75,29 @@ class PetAdoption(ct.CTk):
             
             # Function to handle back button click event
             def go_back():
-                new_window.destroy()
-                #self.deiconify() ##The window remains alive in memory and can be made visible again using deiconify()
-                from homepage import Home
-                home_page = Home(username=self.username, role=self.role)  # Open the home page
-                home_page.mainloop()
+                if check_session_timeout_new_window()==True:
+                    new_window.destroy()
+                    login=login_linked_to_signup.Login()
+                    login.mainloop()
+                else:
+                    new_window.destroy()
+                    #self.deiconify() ##The window remains alive in memory and can be made visible again using deiconify()
+                    from homepage import Home
+                    home_page = Home(username=self.username, role=self.role)  # Open the home page
+                    home_page.mainloop()
             
             def go_back_admin():
-                new_window.destroy()
-                #self.deiconify() ##The window remains alive in memory and can be made visible again using deiconify()
-                from AdminHomepage import AdminHome
-                home_page = AdminHome(username=self.username, role=self.role) 
-                home_page.mainloop()
-            
+                if check_session_timeout_new_window()==True:
+                    new_window.destroy()
+                    login=login_linked_to_signup.Login()
+                    login.mainloop()
+                else:
+                    new_window.destroy()
+                    #self.deiconify() ##The window remains alive in memory and can be made visible again using deiconify()
+                    from AdminHomepage import AdminHome
+                    home_page = AdminHome(username=self.username, role=self.role) 
+                    home_page.mainloop()
+                
             def pet_adopted():
                 cursor = self.db_manager.cursor
                 cursor.execute("SELECT UID FROM users WHERE username = %s", (self.username,))
@@ -92,35 +113,45 @@ class PetAdoption(ct.CTk):
                     messagebox.showerror("Error", "User not found")
             
             def submit():
-                number = number_entry.get()
-                location = location_entry.get()
-                pet_name = pet_data[0]  # Get the pet name
-                pet_id = pet_data[4]
+                if check_session_timeout_new_window()==True:
+                    new_window.destroy()
+                    login=login_linked_to_signup.Login()
+                    login.mainloop()
+                else:
+                    number = number_entry.get()
+                    location = location_entry.get()
+                    pet_name = pet_data[0]  # Get the pet name
+                    pet_id = pet_data[4]
 
-                try:
-                    if self.validate_phone_number(number):
-                        # If phone number is valid, proceed with insertion
-                        self.db_manager.insert_customer(self.username, number, location, pet_name)
+                    try:
+                        if self.validate_phone_number(number):
+                            # If phone number is valid, proceed with insertion
+                            self.db_manager.insert_customer(self.username, number, location, pet_name)
+                            pet_adopted()
+                            messagebox.showinfo("Adoption Success", f"You adopted {pet_name} successfully! 🐱 Now please wait for delivery.")
+                            #new_window.destroy()  # Close the window after submission
+                            if self.role != "admin":
+                                go_back()
+                            else:
+                                go_back_admin()
+                        else:
+                            # If phone number is invalid, display error message
+                            messagebox.showerror("error", "Invalid phone number ! please make sure that you provide us with a valid phone number")
+                    except:
                         pet_adopted()
                         messagebox.showinfo("Adoption Success", f"You adopted {pet_name} successfully! 🐱 Now please wait for delivery.")
-                        #new_window.destroy()  # Close the window after submission
                         if self.role != "admin":
-                            go_back()
+                                go_back()
                         else:
                             go_back_admin()
-                    else:
-                        # If phone number is invalid, display error message
-                        messagebox.showerror("error", "Invalid phone number ! please make sure that you provide us with a valid phone number")
-                except:
-                    pet_adopted()
-                    messagebox.showinfo("Adoption Success", f"You adopted {pet_name} successfully! 🐱 Now please wait for delivery.")
-                    if self.role != "admin":
-                            go_back()
-                    else:
-                        go_back_admin()
+            def check_session_timeout_new_window():
+                if session.has_timed_out():
+                    return True
+                else:
+                    self.after(1000,check_session_timeout_new_window)
+
             self.destroy()
 
-        
             new_window = ct.CTk()  
             new_window.geometry("800x700")
             new_window.title('Adoption Details')
@@ -165,9 +196,10 @@ class PetAdoption(ct.CTk):
             
             submit_button.configure(command=submit)
 
+            session=Session()
+            new_window.after(0,check_session_timeout_new_window)            
             new_window.mainloop()
             
-
             ##new_window.mainloop()
 
 
@@ -182,7 +214,6 @@ class PetAdoption(ct.CTk):
         cursor = self.db_manager.cursor
         cursor.execute("SELECT name, species, age, image_path, id, adopted FROM pets")
         pets_data = cursor.fetchall()
-
         for pet_data in pets_data:
             pet_frame = ct.CTkFrame(scrollable_frame)
             pet_frame.pack(side="left", padx=10)
@@ -216,17 +247,27 @@ class PetAdoption(ct.CTk):
             back_button.place(x=10, y=10)
     
     def go_back(self):
-        self.destroy()  # Close the adoption page
-        from homepage import Home
-        home_page = Home(username=self.username, role=self.role)  # Open the home page
-        home_page.mainloop()
+        if self.check_session_timeout()==True:
+            self.destroy()
+            login=login_linked_to_signup.Login()
+            login.mainloop()
+        else:
+            self.destroy()  # Close the adoption page
+            from homepage import Home
+            home_page = Home(username=self.username, role=self.role)  # Open the home page
+            home_page.mainloop()
     
     def redirect_to_Adminhome(self):
+        if self.check_session_timeout()==True:
+            self.destroy()
+            login=login_linked_to_signup.Login()
+            login.mainloop()
+        else:
         # Destroy current window and create Home instance
-        self.destroy()
-        from AdminHomepage import AdminHome
-        home_page = AdminHome(username=self.username, role=self.role) 
-        home_page.mainloop()
+            self.destroy()
+            from AdminHomepage import AdminHome
+            home_page = AdminHome(username=self.username, role=self.role) 
+            home_page.mainloop()
     
     def run(self):
         self.mainloop()

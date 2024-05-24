@@ -1,4 +1,3 @@
-from tkinter import *
 from tkinter import ttk, messagebox
 import mysql.connector as mysql
 import bcrypt
@@ -6,6 +5,8 @@ from customtkinter import *
 from PIL import Image
 import uuid
 import re
+import login_linked_to_signup
+from session_time_out import Session
 
 import sys
 sys.dont_write_bytecode = True
@@ -14,8 +15,6 @@ HOST = "localhost"
 USER = "root"
 PASSWORD = "QueueThatW@69"
 DATABASE = "registration"
-
-
 
 class App(CTk):
     def __init__(self, username, role):
@@ -56,7 +55,6 @@ class App(CTk):
         options = ["Choose one", "doctor", "normal_user", "admin"]
         self.clicked = StringVar() 
         self.clicked.set("Choose one")
-        self.clicked.trace_add("write", self.enable_submit)  
 
         style = ttk.Style()
         style.theme_use('clam')  
@@ -66,13 +64,25 @@ class App(CTk):
         drop = ttk.OptionMenu(frame, self.clicked, *options, style='Custom.TMenubutton')  
         drop.pack()
 
-        back_button = CTkButton(self, text=" <--- back to Adoptin page", font=("Arial", 13, "bold"), command=self.go_back)
+        back_button = CTkButton(self, text=" <--- back to Adoption page", font=("Arial", 13, "bold"), command=self.go_back)
         back_button.place(x=10, y=10)
         
         self.submit_button = CTkButton(master=frame, text="Submit", fg_color="#A1045A", hover_color="#E44982", font=("Arial Bold", 14), text_color="#ffffff", width=300, command=self.submit_registration)
         self.submit_button.pack(anchor="w", pady=(40, 0), padx=(50, 0))
         self.submit_button.configure(state="disabled")  
-    
+
+        # Add the trace callback after all widgets are initialized
+        self.clicked.trace_add("write", self.enable_submit)  
+
+        self.session_timeout=Session()
+        self.after(0,self.check_session_timeout)
+
+    def check_session_timeout(self):
+        if self.session_timeout.has_timed_out():
+            return True
+        else:
+            self.after(1000,self.check_session_timeout)
+
     def connect_db(self):
         try:
             mydb = mysql.connect(
@@ -87,10 +97,15 @@ class App(CTk):
             return None
 
     def go_back(self):
-        self.destroy()  # Close the adoption page
-        from AdminHomepage import AdminHome
-        home_page = AdminHome(username=self.username, role=self.role)  # Open the home page
-        home_page.mainloop()
+        if self.check_session_timeout()==True:
+           self.destroy()
+           login=login_linked_to_signup.Login()
+           login.mainloop()
+        else:
+            self.destroy()  # Close the adoption page
+            from AdminHomepage import AdminHome
+            home_page = AdminHome(username=self.username, role=self.role)  # Open the home page
+            home_page.mainloop()
     
     def register_user(self,username, password, role):
         mydb = self.connect_db()
@@ -134,22 +149,28 @@ class App(CTk):
         return True
 
     def enable_submit(self, *args):
-        if self.clicked.get() != "Choose one":
-            self.submit_button.configure(state="normal")
-        else:
-            self.submit_button.configure(state="disabled")
+        if hasattr(self, 'submit_button'):
+            if self.clicked.get() != "Choose one":
+                self.submit_button.configure(state="normal")
+            else:
+                self.submit_button.configure(state="disabled")
 
     def submit_registration(self):
-        username = self.username_entry.get()
-        password = self.password_entry.get()
-        role = self.clicked.get()
+        if self.check_session_timeout()==True:
+           self.destroy()
+           login=login_linked_to_signup.Login()
+           login.mainloop()
+        else:
+            username = self.username_entry.get()
+            password = self.password_entry.get()
+            role = self.clicked.get()
 
-        if not self.validate_password(password):
-            messagebox.showerror("Invalid Password", "Password must be 12+ characters long and include uppercase, lowercase, numbers, and symbols.")
-            return
+            if not self.validate_password(password):
+                messagebox.showerror("Invalid Password", "Password must be 12+ characters long and include uppercase, lowercase, numbers, and symbols.")
+                return
 
-        self.register_user(username, password, role)
+            self.register_user(username, password, role)
 
-# if __name__ == "__main__":
+#if __name__ == "__main__":
 #     app = App()
 #     app.mainloop()

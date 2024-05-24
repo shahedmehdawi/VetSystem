@@ -16,7 +16,6 @@ ct.set_default_color_theme("green")
 img = PIL.Image.open("Assets_Cat/c.jpg") # change to match repo of image
 buttonClicked = False # Bfore first click
 
-
 class Login(ct.CTk):
     def __init__(self):
         super().__init__()

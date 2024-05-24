@@ -3,6 +3,8 @@ import mysql.connector as mysql
 import bcrypt
 import customtkinter as ct
 from tkinter import messagebox
+from session_time_out import Session
+import login_linked_to_signup
 
 import sys
 sys.dont_write_bytecode = True
@@ -54,7 +56,15 @@ class EditProfile(ct.CTk):
         back_button = ct.CTkButton(self, text="<--- Back to Home" if self.role != "admin" else "<--- Back to AdminHome" , font=("Arial", 13, "bold") , command=self.go_back if self.role != "admin" else self.redirect_to_Adminhome)
         back_button.place(x=10, y=10)
 
+        self.session_timeout = Session()
+        self.after(0, self.check_session_timeout)
     
+    def check_session_timeout(self):
+        if self.session_timeout.has_timed_out():
+            return True
+        else:
+            self.after(1000, self.check_session_timeout)
+
     def validate_password(self, password):
         if len(password) < 12:
             return False
@@ -73,10 +83,15 @@ class EditProfile(ct.CTk):
         return email_pattern.match(email) is not None
     
     def go_back(self):
-        self.destroy()  # Close the adoption page
-        from homepage import Home
-        home_page = Home(username=self.username)  # Open the home page
-        home_page.mainloop()
+        if self.check_session_timeout()==True:
+            self.destroy()
+            login=login_linked_to_signup.Login()
+            login.mainloop()
+        else:
+            self.destroy()  # Close the adoption page
+            from homepage import Home
+            home_page = Home(username=self.username)  # Open the home page
+            home_page.mainloop()
     
     def redirect_to_Adminhome(self):
         # Destroy current window and create Home instance
@@ -103,30 +118,35 @@ class EditProfile(ct.CTk):
             messagebox.showerror("Database Error", f"Error retrieving user information: {err}")
 
     def save_changes(self):
-        name = self.name_entry.get()
-        email = self.email_entry.get()
-        new_password = self.password_entry.get()
+        if self.check_session_timeout()==True:
+            self.destroy()
+            login=login_linked_to_signup.Login()
+            login.mainloop()
+        else:
+            name = self.name_entry.get()
+            email = self.email_entry.get()
+            new_password = self.password_entry.get()
 
-        try:
-            mydb = mysql.connect(host=HOST, user=USER, password=PASSWORD, database=DATABASE)
-            cursor = mydb.cursor()
+            try:
+                mydb = mysql.connect(host=HOST, user=USER, password=PASSWORD, database=DATABASE)
+                cursor = mydb.cursor()
 
-            if not name:
-                messagebox.showerror("Invalid Name", "Please Enter a valid Name")
-                return
-            elif not self.validate_password(new_password):
-                messagebox.showerror("Invalid Password", "Password must be 12+ characters long and include uppercase, lowercase, numbers, and symbols.")
-                return
-            elif not self.validate_email(email):
-                messagebox.showerror("Invalid Email", "Please enter a valid email address.")
-                return
-            else:
-                salt = bcrypt.gensalt(rounds=14)
-                hashed_password = bcrypt.hashpw(new_password.encode('utf-8'), salt)
-                command = "UPDATE users SET name = %s, email = %s, password_hash = %s, salt = %s WHERE username = %s "
-                cursor.execute(command, (name, email, hashed_password, salt, self.username))
-                mydb.commit()
-                messagebox.showinfo("Success", "Profile updated successfully!")
-            ##self.destroy()
-        except mysql.Error as err:
-            messagebox.showerror("Database Error", f"Error updating profile: {err}")
+                if not name:
+                    messagebox.showerror("Invalid Name", "Please Enter a valid Name")
+                    return
+                elif not self.validate_password(new_password):
+                    messagebox.showerror("Invalid Password", "Password must be 12+ characters long and include uppercase, lowercase, numbers, and symbols.")
+                    return
+                elif not self.validate_email(email):
+                    messagebox.showerror("Invalid Email", "Please enter a valid email address.")
+                    return
+                else:
+                    salt = bcrypt.gensalt(rounds=14)
+                    hashed_password = bcrypt.hashpw(new_password.encode('utf-8'), salt)
+                    command = "UPDATE users SET name = %s, email = %s, password_hash = %s, salt = %s WHERE username = %s "
+                    cursor.execute(command, (name, email, hashed_password, salt, self.username))
+                    mydb.commit()
+                    messagebox.showinfo("Success", "Profile updated successfully!")
+                ##self.destroy()
+            except mysql.Error as err:
+                messagebox.showerror("Database Error", f"Error updating profile: {err}")
