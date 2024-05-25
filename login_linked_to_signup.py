@@ -63,26 +63,28 @@ class Login(ct.CTk):
                 command = "use registration"
                 mycursor.execute(command)
                 # we will execute a command to get username, password_hash and salt from table (users) ... you can call the table whatever you want too
-                command="select username, password_hash , salt, role, is_new from users where username=%s" # change table name to match your target table name
+                command="select UID, username, password_hash , salt, role, is_new from users where username=%s" # change table name to match your target table name
                 mycursor.execute(command,(username,)) # %s will be replaced with username passed into mycursor.execute() 
 
                 # fetches and returns a single query with the username and password we passed .... or returns None if not found
                 myresult = mycursor.fetchone()
                 if myresult == None:
+                    self.login_logs(mydb,mycursor,None,username,"Failed Login")
                     messagebox.showerror("Failed","Login Failed")
                     self.label2.configure(text="Login Failed")
-                else:
-                    stored_pass_hash = myresult[1]
-                    salt = myresult[2].decode()
-                    role = myresult[3]
-                    is_new = myresult[4]
-                    
+                else: 
+                    stored_pass_hash = myresult[2]
+                    salt = myresult[3].decode()
+                    role = myresult[4]
+                    is_new = myresult[5]
+                    user_id=myresult[0]
                     hashed_password = bcrypt.hashpw(password.encode(), salt.encode()).decode()
                     if hashed_password == stored_pass_hash: 
                         if is_new:
                             self.redirect_to_EditProfile(username, role, stored_pass_hash, salt)
                             return
-                                    
+                        #to insert logs in user_logs table
+                        self.login_logs(mydb,mycursor,user_id,username,"Successful Login")
                         messagebox.showerror("Success","Login Successful")
                         self.label2.configure(text="Login Successful")
                         # Redirect to home page
@@ -91,10 +93,18 @@ class Login(ct.CTk):
                         else:
                             self.redirect_to_Adminhome(username, role)
                     else:
+                        self.login_logs(mydb,mycursor,user_id,username,"Failed Login")
                         messagebox.showerror("Login Failed","invalid username or password")
-
             except:
                 messagebox.showerror("Failed","Couldn't connect to database")
+
+    def login_logs(self,mydb,mycursor,user_id,username,action):
+        try:    
+            command="insert into login_logs(user_id,username,action)values(%s,%s,%s)"
+            mycursor.execute(command,(user_id,username,action))
+            mydb.commit()
+        except:
+            messagebox.showerror("Failed","Couldn't to log action")
 
     def redirect_to_home(self,username, role):
         # Destroy current window and create Home instance
