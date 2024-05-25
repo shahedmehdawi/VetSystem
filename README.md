@@ -76,6 +76,18 @@ CREATE TABLE ⁠ customer_info ⁠ (
 </pre>
 </details>
 
+<details>
+<summary><b>login_logs Table</b></summary>
+<pre>
+CREATE TABLE login_logs (
+    user_id INT,
+    username VARCHAR(255),
+    action VARCHAR(255),
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(UID)
+);
+</pre>
+</details>
 
 ## Functional & Non-functional Requirements
 <details>
