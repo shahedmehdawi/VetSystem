@@ -92,6 +92,17 @@ CREATE TABLE login_logs (
 </pre>
 </details>
 
+<details>
+<summary><b>encryption_keys Table</b></summary>
+<pre>
+CREATE TABLE encryption_keys (
+    UID INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    enc_key VARBINARY(256),
+    FOREIGN KEY (user_id) REFERENCES users(UID)
+);
+</pre>
+</details>
 ## Functional & Non-functional Requirements
 <details>
 <summary><b>Functional Requirements</b></summary>
