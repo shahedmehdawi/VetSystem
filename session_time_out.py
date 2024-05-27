@@ -2,7 +2,7 @@ import mysql.connector
 
 class Session:
     def __init__(self):
-        self.time_duration =15
+        self.time_duration = 60
         self.db = mysql.connector.connect(
             host="localhost",
             user="root",

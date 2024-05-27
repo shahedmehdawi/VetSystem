@@ -51,7 +51,7 @@ class PetAdoption(ct.CTk):
         self.db_manager = self.DatabaseManager()
         self.setup_gui()
 
-        self.session_timeout=Session()        
+        self.session_timeout = Session()        
         self.after(0,self.check_session_timeout)
 
     def check_session_timeout(self):

@@ -104,10 +104,12 @@ CREATE TABLE encryption_keys (
     UID INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT,
     enc_key VARBINARY(256),
-    FOREIGN KEY (user_id) REFERENCES users(UID)
+    FOREIGN KEY (user_id) REFERENCES users(UID),
+    iv VARBINARY(16)
 );
 </pre>
 </details>
+
 ## Functional & Non-functional Requirements
 <details>
 <summary><b>Functional Requirements</b></summary>

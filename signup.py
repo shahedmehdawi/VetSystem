@@ -15,8 +15,8 @@ sys.dont_write_bytecode = True
 
 HOST = "localhost"
 USER = "root"  # change username
-PASSWORD = "m2210642"  # change password
-DATABASE = "db1"  # change database
+PASSWORD = "QueueThatW@69"  # change password
+DATABASE = "registration"  # change database
 
 class Signup(ct.CTk):
     def __init__(self):
@@ -65,7 +65,7 @@ class Signup(ct.CTk):
                                  password=PASSWORD,
                                  database=DATABASE)
             cursor = mydb.cursor()
-            cursor.execute("CREATE TABLE IF NOT EXISTS encryption_keys (UID INT PRIMARY KEY AUTO_INCREMENT, user_id INT, enc_key VARBINARY(256))")
+            cursor.execute("CREATE TABLE IF NOT EXISTS encryption_keys (UID INT PRIMARY KEY AUTO_INCREMENT, user_id INT, enc_key VARBINARY(256), iv VARBINARY(16))")
         except mysql.Error as err:
             messagebox.showerror("Database Error", f"Error connecting to database: {err}")
 
@@ -94,7 +94,7 @@ class Signup(ct.CTk):
         cipher = Cipher(algorithms.AES(key), modes.CBC(iv), backend=default_backend())
         encryptor = cipher.encryptor()
         ciphertext = encryptor.update(padded_data) + encryptor.finalize()
-        return base64.b64encode(iv + ciphertext).decode(), key
+        return base64.b64encode(iv + ciphertext).decode(), key, iv
 
     def signup_user(self):
         username = self.signup_username_entry.get()
@@ -113,16 +113,16 @@ class Signup(ct.CTk):
         salt = bcrypt.gensalt(rounds=14)
         hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
 
-        encrypted_name, enc_key = self.encrypt_name(name) ##new
+        encrypted_name, enc_key, enc_iv = self.encrypt_name(name) ##new
 
         sql = "INSERT INTO users (username, password_hash, name, email, salt) VALUES (%s, %s, %s, %s, %s)"
         val = (username, hashed_password, encrypted_name, email, salt)
         try:
             cursor.execute(sql, val)
             user_id = cursor.lastrowid
-            key_sql = "INSERT INTO encryption_keys (user_id, enc_key) VALUES (%s, %s)"
-            key_val = (user_id, enc_key)
-            cursor.execute(key_sql, key_val)
+            key_sql = "INSERT INTO encryption_keys (user_id, enc_key, iv) VALUES (%s, %s, %s)"
+            key_val = (user_id, enc_key, enc_iv)
+            cursor.execute(key_sql, key_val, enc_iv)
             mydb.commit()
             messagebox.showinfo("Success", "User registered successfully!")
             self.go_to_login()
