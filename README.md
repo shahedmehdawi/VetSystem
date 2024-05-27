@@ -29,6 +29,11 @@ This is a software security project aimed at building a software for managing pe
 **8. pycryptodomex**
 ```pip install pycryptodomex```
 
+**9. cryptography**
+```pip install cryptography```
+
+**10. paramiko**
+```pip install paramiko```
 ![login_page](https://github.com/shahedmehdawi/Desktop-application/assets/140253527/56814f13-e45e-46bc-a848-c57a2892186f)
 
 ### Database Tables Utilized
