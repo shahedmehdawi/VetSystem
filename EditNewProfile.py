@@ -5,14 +5,19 @@ import customtkinter as ct
 from tkinter import messagebox
 import login_linked_to_signup
 from session_time_out import Session
-
+import base64
 import sys
+from cryptography.hazmat.primitives import padding
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+from cryptography.hazmat.backends import default_backend
+import os
+
 sys.dont_write_bytecode = True
 
 HOST = "localhost"
 USER = "root"  # change username
-PASSWORD = "QueueThatW@69"  # change password
-DATABASE = "registration"  # change database
+PASSWORD = "Bella*8234"  # change password
+DATABASE = "new_schema"  # change database
 
 class NewProfile(ct.CTk):
     def __init__(self, username, role, stored_pass_hash, salt):
@@ -50,8 +55,6 @@ class NewProfile(ct.CTk):
 
         self.session_timeout = Session()
         self.after(0, self.check_session_timeout)
-        # back_button = ct.CTkButton(self, text="<--- Back to Home" if self.role != "admin" else "<--- Back to AdminHome" , font=("Arial", 13, "bold") , command=self.go_back if self.role != "admin" else self.redirect_to_Adminhome)
-        # back_button.place(x=10, y=10)
 
     def check_session_timeout(self):
         if self.session_timeout.has_timed_out():
@@ -82,18 +85,37 @@ class NewProfile(ct.CTk):
     def validate_email(self, email):
         email_pattern = re.compile(r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$")
         return email_pattern.match(email) is not None
-    
+
+    def get_or_create_key(self, cursor, mydb):
+        cursor.execute("SELECT enc_key FROM encryption_keys WHERE id = 1")
+        result = cursor.fetchone()
+        if result:
+            return result[0]
+        else:
+            key = os.urandom(32)  # AES key size is 32 bytes for AES-256
+            cursor.execute("INSERT INTO encryption_keys (id, enc_key) VALUES (1, %s)", (key,))
+            mydb.commit()
+            return key
+
+    def encrypt_name(self, name, cursor, mydb):
+        key = self.get_or_create_key(cursor, mydb)
+        iv = os.urandom(16)  # AES block size is 16 bytes
+        padder = padding.PKCS7(128).padder()
+        padded_data = padder.update(name.encode()) + padder.finalize()
+        cipher = Cipher(algorithms.AES(key), modes.CBC(iv), backend=default_backend())
+        encryptor = cipher.encryptor()
+        ciphertext = encryptor.update(padded_data) + encryptor.finalize()
+        return base64.b64encode(iv + ciphertext).decode(), iv
 
     def load_user_info(self):
         try:
             mydb = mysql.connect(host=HOST, user=USER, password=PASSWORD, database=DATABASE)
             cursor = mydb.cursor()
-            command = "SELECT name, email, password_hash FROM users WHERE username = %s"
+            command = "SELECT email FROM users WHERE username = %s"
             cursor.execute(command, (self.username,))
             user_info = cursor.fetchone()
             if user_info:
-                name, email = user_info[0], user_info[1]
-                self.name_entry.insert(0, name)
+                email = user_info[0]
                 self.email_entry.insert(0, email)
             else:
                 # User not found, proceed without displaying error message
@@ -102,23 +124,26 @@ class NewProfile(ct.CTk):
             messagebox.showerror("Database Error", f"Error retrieving user information: {err}")
 
     def save_changes(self):
-        if self.check_session_timeout()==True:
+        if self.check_session_timeout() == True:
             self.destroy()
-            login=login_linked_to_signup.Login()
+            login = login_linked_to_signup.Login()
             login.mainloop()
         else:
             name = self.name_entry.get()
             email = self.email_entry.get()
-            new_password = self.password_entry.get()      
+            new_password = self.password_entry.get()
             hashed_password = bcrypt.hashpw(new_password.encode(), self.salt.encode()).decode()
-            
+
             if self.stored_pass_hash == hashed_password:
                 messagebox.showerror("Invalid Password", "Password cannot match old password")
                 return
+            
 
             try:
                 mydb = mysql.connect(host=HOST, user=USER, password=PASSWORD, database=DATABASE)
                 cursor = mydb.cursor()
+                encrypted_name, iv = self.encrypt_name(name, cursor, mydb)
+
 
                 if not name:
                     messagebox.showerror("Invalid Name", "Please Enter a valid Name")
@@ -132,8 +157,8 @@ class NewProfile(ct.CTk):
                 else:
                     salt = bcrypt.gensalt(rounds=14)
                     hashed_password = bcrypt.hashpw(new_password.encode('utf-8'), salt)
-                    command = "UPDATE users SET name = %s, email = %s, password_hash = %s, salt = %s, is_new = 0 WHERE username = %s "
-                    cursor.execute(command, (name, email, hashed_password, salt ,self.username))
+                    command = "UPDATE users SET name = %s, email = %s, password_hash = %s, salt = %s,iv=%s, is_new = 0 WHERE username = %s "
+                    cursor.execute(command, (encrypted_name, email, hashed_password, salt,iv ,self.username))
                     mydb.commit()
                     messagebox.showinfo("Success", "Profile updated successfully!")
                     self.redirect_to_Login()

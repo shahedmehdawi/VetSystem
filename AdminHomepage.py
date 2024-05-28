@@ -74,7 +74,7 @@ class AdminHome(ctk.CTk):
            login.mainloop()
         else:
             self.destroy()
-            edit_page = editprofile.EditProfile(username=self.username, role=self.role)
+            edit_page = editprofile.EditProfile(username=self.username,role=self.role)
             edit_page.mainloop()
         
     def move_to_AdminPanel(self):
