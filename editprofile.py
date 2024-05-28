@@ -159,9 +159,6 @@ class EditProfile(ct.CTk):
                 if not name:
                     messagebox.showerror("Invalid Name", "Please Enter a valid Name")
                     return
-                elif not self.validate_password(new_password):
-                    messagebox.showerror("Invalid Password", "Password must be 12+ characters long and include uppercase, lowercase, numbers, and symbols.")
-                    return
                 elif not self.validate_email(email):
                     messagebox.showerror("Invalid Email", "Please enter a valid email address.")
                     return
