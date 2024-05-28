@@ -108,6 +108,36 @@ CREATE TABLE encryption_keys (
 </pre>
 </details>
 
+<details>
+<summary><b>db_log Table</b></summary>
+<pre>
+CREATE TABLE db_log (
+    log_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    username VARCHAR(50) NOT NULL,
+    action VARCHAR(10) NOT NULL,
+    action_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+</pre>
+</details>
+
+<details>
+<summary><b>db_log Trigger</b></summary>
+<pre>
+DELIMITER //
+
+CREATE TRIGGER after_user_insert_update
+AFTER INSERT ON users
+FOR EACH ROW
+BEGIN
+    INSERT INTO db_log (user_id, username, action, action_time)
+    VALUES (NEW.id, USER(), 'INSERT', NOW());
+END//
+
+DELIMITER ;
+</pre>
+</details>
+
 ## Functional & Non-functional Requirements
 <details>
 <summary><b>Functional Requirements</b></summary>
