@@ -15,8 +15,8 @@ sys.dont_write_bytecode = True
 
 HOST = "localhost"
 USER = "root"  # change username
-PASSWORD = "QueueThatW@69"  # change password
-DATABASE = "registration"  # change database
+PASSWORD = "Bella*8234"  # change password
+DATABASE = "new_schema"  # change database
 
 class Signup(ct.CTk):
     def __init__(self):
@@ -65,7 +65,6 @@ class Signup(ct.CTk):
                                  password=PASSWORD,
                                  database=DATABASE)
             cursor = mydb.cursor()
-            cursor.execute("CREATE TABLE IF NOT EXISTS encryption_keys (UID INT PRIMARY KEY AUTO_INCREMENT, user_id INT, enc_key VARBINARY(256), iv VARBINARY(16))")
         except mysql.Error as err:
             messagebox.showerror("Database Error", f"Error connecting to database: {err}")
 
@@ -85,16 +84,28 @@ class Signup(ct.CTk):
     def validate_email(self, email):
         email_pattern = re.compile(r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$")
         return email_pattern.match(email) is not None
+    
+    def get_or_create_key(self):
+        cursor.execute("SELECT enc_key FROM encryption_keys WHERE id = 1")
+        result = cursor.fetchone()
+        if result:
+            return result[0]
+        else:
+            key = os.urandom(32)  # AES key size is 32 bytes for AES-256
+            cursor.execute("INSERT INTO encryption_keys (id, enc_key) VALUES (1, %s)", (key,))
+            mydb.commit()
+            return key
 
-    def encrypt_name(self, name):#new
-        key = os.urandom(32)  # AES key size is 32 bytes for AES-256
+    def encrypt_name(self, name):
+        key = self.get_or_create_key()
         iv = os.urandom(16)  # AES block size is 16 bytes
         padder = padding.PKCS7(128).padder()
         padded_data = padder.update(name.encode()) + padder.finalize()
         cipher = Cipher(algorithms.AES(key), modes.CBC(iv), backend=default_backend())
         encryptor = cipher.encryptor()
         ciphertext = encryptor.update(padded_data) + encryptor.finalize()
-        return base64.b64encode(iv + ciphertext).decode(), key, iv
+        return base64.b64encode(iv + ciphertext).decode(), iv
+    
 
     def signup_user(self):
         username = self.signup_username_entry.get()
@@ -113,16 +124,12 @@ class Signup(ct.CTk):
         salt = bcrypt.gensalt(rounds=14)
         hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
 
-        encrypted_name, enc_key, enc_iv = self.encrypt_name(name) ##new
+        encrypted_name, iv = self.encrypt_name(name)
 
-        sql = "INSERT INTO users (username, password_hash, name, email, salt) VALUES (%s, %s, %s, %s, %s)"
-        val = (username, hashed_password, encrypted_name, email, salt)
+        sql = "INSERT INTO users (username, password_hash, name, email, salt, iv) VALUES (%s, %s, %s, %s, %s,%s)"
+        val = (username, hashed_password, encrypted_name, email, salt, iv)
         try:
             cursor.execute(sql, val)
-            user_id = cursor.lastrowid
-            key_sql = "INSERT INTO encryption_keys (user_id, enc_key, iv) VALUES (%s, %s, %s)"
-            key_val = (user_id, enc_key, enc_iv)
-            cursor.execute(key_sql, key_val, enc_iv)
             mydb.commit()
             messagebox.showinfo("Success", "User registered successfully!")
             self.go_to_login()
@@ -132,6 +139,5 @@ class Signup(ct.CTk):
     def go_to_login(self):  # Function to transition to the sign-up page
         self.destroy()
         from login_linked_to_signup import Login
-
-signup_window = Signup()
-signup_window.mainloop()
+        login = Login()
+        login.mainloop()

@@ -69,7 +69,7 @@ class Home(ctk.CTk):
             login.mainloop()
         else:
             self.destroy()
-            edit_page = editprofile.EditProfile(username=self.username, role=self.role)
+            edit_page = editprofile.EditProfile(username=self.username,role=self.role)
             edit_page.mainloop()
 
 ##if __name__ == "__main__":

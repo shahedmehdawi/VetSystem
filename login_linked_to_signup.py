@@ -53,14 +53,14 @@ class Login(ct.CTk):
             messagebox.showerror("Error", "Type Username and Password")
         else:
             try:
-                #database credentials and information ... i named it registration .. you can name it whatever you want
+                #database credentials and information ... i named it new_schema .. you can name it whatever you want
                 mydb=msql.connect(host="localhost", 
                                 user='root',# change username to match your database user
-                                password='QueueThatW@69', # change pass
-                                database='registration')# change database to match your database name
+                                password='Bella*8234', # change pass
+                                database='new_schema')# change database to match your database name
                 mycursor=mydb.cursor()
                 #messagebox.showerror("","Connected to database")
-                command = "use registration"
+                command = "use new_schema"
                 mycursor.execute(command)
                 # we will execute a command to get username, password_hash and salt from table (users) ... you can call the table whatever you want too
                 command="select UID, username, password_hash , salt, role, is_new from users where username=%s" # change table name to match your target table name
@@ -85,7 +85,7 @@ class Login(ct.CTk):
                             return
                         #to insert logs in user_logs table
                         self.login_logs(mydb,mycursor,user_id,username,"Successful Login")
-                        messagebox.showerror("Success","Login Successful")
+                        #messagebox.showerror("Success","Login Successful")
                         self.label2.configure(text="Login Successful")
                         # Redirect to home page
                         if role != "admin":
@@ -131,7 +131,9 @@ class Login(ct.CTk):
 
     def go_to_signup(self): ## Function to transition to the sign-up page
         self.destroy()
-        from signup import Signup    
+        from signup import Signup
+        signup = Signup()
+        signup.mainloop()   
             
 
 if __name__ == "__main__":

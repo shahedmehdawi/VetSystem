@@ -67,10 +67,16 @@ class EditProfile(ct.CTk):
             self.after(1000, self.check_session_timeout)  # Check again after 1 second   
 
     def redirect_to_Adminhome(self):
-        self.destroy()
-        from AdminHomepage import AdminHome
-        home_page = AdminHome(username=self.username, role=self.role) 
-        home_page.mainloop()
+        if self.check_session_timeout()==True:
+            self.destroy()
+            login=login_linked_to_signup.Login()
+            login.mainloop()
+        else:
+            self.destroy()
+            from AdminHomepage import AdminHome
+            home_page = AdminHome(username=self.username, role=self.role) 
+            home_page.mainloop()
+
         
 
     def go_back(self):

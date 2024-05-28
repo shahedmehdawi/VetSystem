@@ -2,12 +2,12 @@ import mysql.connector
 
 class Session:
     def __init__(self):
-        self.time_duration = 60
+        self.time_duration = 120    
         self.db = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="QueueThatW@69",
-            database="registration"
+            password="Bella*8234",
+            database="new_schema"
         )
         self.start_time = self.read_from_db()
 
