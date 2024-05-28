@@ -77,7 +77,22 @@ class EditProfile(ct.CTk):
             home_page = AdminHome(username=self.username, role=self.role) 
             home_page.mainloop()
 
-        
+    def validate_password(self, password):
+        if len(password) < 12:
+            return False
+        if not re.search(r"[A-Z]", password):
+            return False
+        if not re.search(r"[a-z]", password):
+            return False
+        if not re.search(r"\d", password):
+            return False
+        if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password):
+            return False
+        return True
+
+    def validate_email(self, email):
+        email_pattern = re.compile(r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$")
+        return email_pattern.match(email) is not None
 
     def go_back(self):
         self.destroy()  # Close the adoption page
@@ -140,7 +155,16 @@ class EditProfile(ct.CTk):
                 mydb = mysql.connect(host=HOST, user=USER, password=PASSWORD, database=DATABASE)
                 cursor = mydb.cursor()
                 encrypted_name, iv = self.encrypt_name(name, cursor, mydb)
-
+                
+                if not name:
+                    messagebox.showerror("Invalid Name", "Please Enter a valid Name")
+                    return
+                elif not self.validate_password(new_password):
+                    messagebox.showerror("Invalid Password", "Password must be 12+ characters long and include uppercase, lowercase, numbers, and symbols.")
+                    return
+                elif not self.validate_email(email):
+                    messagebox.showerror("Invalid Email", "Please enter a valid email address.")
+                    return
 
                 if new_password:
                     if re.match(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$%*?&])[A-Za-z\d@$%*?&]{10,}$', new_password):
