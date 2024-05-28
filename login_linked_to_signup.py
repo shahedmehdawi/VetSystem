@@ -55,7 +55,7 @@ class Login(ct.CTk):
             try:
                 #database credentials and information ... i named it new_schema .. you can name it whatever you want
                 mydb=msql.connect(host="localhost", 
-                                user='root',# change username to match your database user
+                                user='loginguy',# change username to match your database user
                                 password='Bella*8234', # change pass
                                 database='new_schema')# change database to match your database name
                 mycursor=mydb.cursor()
