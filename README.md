@@ -131,10 +131,22 @@ AFTER INSERT ON users
 FOR EACH ROW
 BEGIN
     INSERT INTO db_log (user_id, username, action, action_time)
-    VALUES (NEW.id, USER(), 'INSERT', NOW());
+    VALUES (NEW.UID, USER(), 'INSERT', NOW());
 END//
 
 DELIMITER ;
+</pre>
+</details>
+
+> [!NOTE]
+> **Add a new user to DB called loginguy to be used in the login page**
+
+<details>
+<summary><b>loginguy Creation Query</b></summary>
+<pre>
+CREATE USER 'loginguy'@'localhost' IDENTIFIED BY 'YourPassword';
+GRANT SELECT ON users TO 'loginguy'@'localhost';
+GRANT INSERT ON login_logs TO 'loginguy'@'localhost';
 </pre>
 </details>
 

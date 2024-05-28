@@ -6,18 +6,18 @@ from tkinter import messagebox
 import login_linked_to_signup
 from session_time_out import Session
 import base64
-import sys
 from cryptography.hazmat.primitives import padding
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
 import os
 
+import sys
 sys.dont_write_bytecode = True
 
 HOST = "localhost"
 USER = "root"  # change username
-PASSWORD = "Bella*8234"  # change password
-DATABASE = "new_schema"  # change database
+PASSWORD = "QueueThatW@69"  # change password
+DATABASE = "registration"  # change database
 
 class NewProfile(ct.CTk):
     def __init__(self, username, role, stored_pass_hash, salt):

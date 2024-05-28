@@ -3,9 +3,9 @@ import customtkinter as ctk
 import AdoptionPage
 import editprofile
 from PIL import Image
-import sys
 import login_linked_to_signup
 from session_time_out import Session
+import sys
 sys.dont_write_bytecode = True
 
 ctk.set_appearance_mode("System")

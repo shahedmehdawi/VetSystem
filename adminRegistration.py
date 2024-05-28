@@ -13,8 +13,8 @@ sys.dont_write_bytecode = True
 
 HOST = "localhost"
 USER = "root"
-PASSWORD = "Bella*8234"
-DATABASE = "new_schema"
+PASSWORD = "QueueThatW@69"
+DATABASE = "registration"
 
 class App(CTk):
     def __init__(self, username, role):

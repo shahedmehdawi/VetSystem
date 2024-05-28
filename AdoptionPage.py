@@ -16,8 +16,8 @@ class PetAdoption(ct.CTk):
             self.db = mysql.connector.connect(
                 host="localhost",
                 user="root",
-                password="Bella*8234",
-                database="new_schema"
+                password="QueueThatW@69",
+                database="registration"
             )
             self.cursor = self.db.cursor()
 

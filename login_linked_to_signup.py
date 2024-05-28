@@ -55,12 +55,12 @@ class Login(ct.CTk):
             try:
                 #database credentials and information ... i named it new_schema .. you can name it whatever you want
                 mydb=msql.connect(host="localhost", 
-                                user='loginguy',# change username to match your database user
-                                password='Bella*8234', # change pass
-                                database='new_schema')# change database to match your database name
+                                user='root',# change username to match your database user
+                                password='QueueThatW@69', # change pass
+                                database='registration')# change database to match your database name
                 mycursor=mydb.cursor()
                 #messagebox.showerror("","Connected to database")
-                command = "use new_schema"
+                command = "use registration"
                 mycursor.execute(command)
                 # we will execute a command to get username, password_hash and salt from table (users) ... you can call the table whatever you want too
                 command="select UID, username, password_hash , salt, role, is_new from users where username=%s" # change table name to match your target table name
