@@ -50,7 +50,8 @@ CREATE TABLE users (
     email VARCHAR(255) NOT NULL UNIQUE,
     salt BINARY(32) NOT NULL,
     role ENUM('normal_user', 'doctor', 'admin') NOT NULL DEFAULT 'normal_user',
-    is_new BOOLEAN NOT NULL DEFAULT FALSE
+    is_new BOOLEAN NOT NULL DEFAULT FALSE,
+    iv VARBINARY(16)
 );
 </pre>
 </details>
@@ -101,11 +102,8 @@ CREATE TABLE login_logs (
 <summary><b>encryption_keys Table</b></summary>
 <pre>
 CREATE TABLE encryption_keys (
-    UID INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT,
-    enc_key VARBINARY(256),
-    FOREIGN KEY (user_id) REFERENCES users(UID),
-    iv VARBINARY(16)
+    id INT PRIMARY KEY,
+    enc_key VARBINARY(256)
 );
 </pre>
 </details>
